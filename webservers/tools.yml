@@ -1,0 +1,13 @@
+---
+- name: gcc
+  action: yum pkg=gcc state=latest
+- name: gcc-c++
+  action: yum pkg=gcc-c++ state=latest
+- name: make
+  action: yum pkg=make state=latest
+- name: vim
+  action: yum pkg=vim-enhanced state=latest
+- name: wget
+  action: yum pkg=wget state=latest
+- name: zsh
+  action: yum pkg=zsh state=latest

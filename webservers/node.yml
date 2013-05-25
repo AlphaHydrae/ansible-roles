@@ -1,0 +1,5 @@
+---
+- name: yum install nodejs
+  action: yum pkg=nodejs state=latest
+- name: yum install npm
+  action: yum pkg=npm state=latest

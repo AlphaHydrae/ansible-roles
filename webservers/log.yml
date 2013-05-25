@@ -1,0 +1,7 @@
+---
+- name: logwatch
+  action: yum pkg=logwatch state=latest
+- name: fortune-mod
+  action: yum pkg=fortune-mod state=latest
+- name: fortune-firefly
+  action: yum pkg=fortune-firefly state=latest

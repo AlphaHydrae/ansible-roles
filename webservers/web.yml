@@ -1,0 +1,25 @@
+---
+- name: ${hostname}-web group
+  action: group name=${hostname}-web
+- name: set up /web
+  action: file path=/web group=${hostname}-web mode=0751 state=directory
+- name: set up /web/conf.d
+  action: file path=/web/conf.d state=directory
+- name: set up /web/security
+  action: file path=/web/security mode=0700 state=directory
+- name: set up /web/sites
+  action: file path=/web/sites group=${hostname}-web mode=0751 state=directory
+- name: set up /web/nginx.conf
+  action: template src=webservers/nginx.web.j2 dest=/web/nginx.conf
+- name: nginx
+  action: yum pkg=nginx state=latest
+- name: add nginx user to ${hostname}-web group
+  action: user name=nginx append=yes groups=${hostname}-web
+- name: install /etc/nginx/nginx.conf
+  action: template src=webservers/nginx.j2 dest=/etc/nginx/nginx.conf
+- name: configure selinux to allow nginx access to /web
+  action: script webservers/web-selinux.sh
+- name: open ports 80 and 443
+  action: script webservers/web-firewalld.sh
+- name: start nginx
+  action: service name=nginx enabled=yes state=started

@@ -3,7 +3,4 @@
   action: yum pkg=git-all state=latest
 - name: useradd git
   action: user name=git home=/home/git
-- name: mkdir /home/git/.ssh
-  action: file path=/home/git/.ssh group=git owner=git mode=0700 state=directory
-- name: copy /home/git/.ssh/authorized_keys
-  action: copy src=webservers/authorized_keys dest=/home/git/.ssh/authorized_keys force=no group=git owner=git mode=0600
+- include: common/authorized_keys.yml user=git

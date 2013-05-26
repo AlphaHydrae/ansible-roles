@@ -1,0 +1,7 @@
+---
+- name: install hostname file
+  action: template src=templates/system/hostname.j2 dest=/etc/hostname
+- name: template /etc/motd
+  action: template src=~/.ansible-private/motd/${hostname} dest=/etc/motd
+- name: forward root mail
+  action: template src=templates/system/forward.j2 dest=/root/.forward

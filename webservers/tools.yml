@@ -5,6 +5,8 @@
   action: yum pkg=gcc-c++ state=latest
 - name: make
   action: yum pkg=make state=latest
+- name: python-setuptools
+  action: yum pkg=python-setuptools state=latest
 - name: vim
   action: yum pkg=vim-enhanced state=latest
 - name: wget

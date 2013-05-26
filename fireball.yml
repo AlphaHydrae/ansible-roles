@@ -1,0 +1,9 @@
+---
+- hosts: local
+  gather_facts: false
+  connection: local
+  sudo: yes
+  tasks:
+    - action: easy_install name=pip
+    - action: pip name=pyzmq state=present
+    - action: pip name=python-keyczar

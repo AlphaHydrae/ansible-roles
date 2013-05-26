@@ -11,13 +11,5 @@
   action: file path=/var/lib/pgsql/data group=postgres owner=postgres mode=0700 state=directory
 - name: init postgresql database
   action: command /bin/su - postgres -c 'initdb -D /var/lib/pgsql/data -E UTF8 --locale=en_US.UTF8' creates=/var/lib/pgsql/data/pg_hba.conf
-- name: install pg_hba.conf
-  action: template src=webservers/pg_hba.j2 dest=/var/lib/pgsql/data/pg_hba.conf
-  notify:
-    - restart postgresql
-- name: install pg_ident.conf
-  action: template src=webservers/pg_ident.j2 dest=/var/lib/pgsql/data/pg_ident.conf
-  notify:
-    - restart postgresql
 - name: start postgresql
   action: service name=postgresql enabled=yes state=started

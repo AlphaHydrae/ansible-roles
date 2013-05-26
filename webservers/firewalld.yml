@@ -1,0 +1,3 @@
+---
+- name: start firewalld
+  action: service name=firewalld enabled=yes state=started

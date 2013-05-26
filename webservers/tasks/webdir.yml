@@ -1,0 +1,5 @@
+---
+- name: mkdir /web/sites/${user}
+  file: path=/web/sites/${user} group=${hostname}-web owner=${user} mode=0750 state=directory
+- name: symlink /home/${user}/web
+  file: path=/home/${user}/web src=/web/sites/${user} state=link

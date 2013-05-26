@@ -1,0 +1,7 @@
+---
+- name: user blog
+  user: name=blog state=present
+- include: common/authorized_keys.yml user=blog
+- include: webservers/tasks/webdir.yml user=blog
+- name: mkdir /home/blog/web/blog
+  file: path=/home/blog/web/blog state=directory

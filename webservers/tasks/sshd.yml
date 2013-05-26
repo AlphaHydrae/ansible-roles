@@ -1,0 +1,12 @@
+- name: enable ssh public key authentication
+  lineinfile: dest=/etc/ssh/sshd_config regexp=^PubkeyAuthentication insertafter=^#PubkeyAuthentication line='PubkeyAuthentication yes' state=present
+  notify:
+    - restart ssh
+- name: disable ssh challenge response authentication
+  lineinfile: dest=/etc/ssh/sshd_config regexp=^ChallengeResponseAuthentication line='ChallengeResponseAuthentication no' state=present
+  notify:
+    - restart ssh
+- name: disable ssh password authentication
+  lineinfile: dest=/etc/ssh/sshd_config regexp=^PasswordAuthentication line='PasswordAuthentication no' state=present
+  notify:
+    - restart ssh

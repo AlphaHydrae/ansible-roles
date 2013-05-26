@@ -1,0 +1,10 @@
+---
+- hosts: test
+  vars:
+    nginx_workers: 5
+  user: root
+  connection: ssh
+  tasks:
+    - include: webservers/fedora.yml
+  handlers:
+    - include: webservers/tasks/handlers.yml

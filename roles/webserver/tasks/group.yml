@@ -1,0 +1,3 @@
+---
+- name: groupadd ${hostname}-web
+  action: group name=${hostname}-web

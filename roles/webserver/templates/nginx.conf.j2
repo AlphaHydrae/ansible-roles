@@ -3,7 +3,7 @@
 #   * Official Russian Documentation: http://nginx.org/ru/docs/
 
 user nginx;
-worker_processes ${nginx_workers};
+worker_processes ${web_nginx_workers};
 
 error_log /var/log/nginx/error.log;
 #error_log /var/log/nginx/error.log  notice;
@@ -13,7 +13,7 @@ pid /run/nginx.pid;
 
 
 events {
-  worker_connections 1024;
+  worker_connections ${web_nginx_worker_connections};
 }
 
 http {

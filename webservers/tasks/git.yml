@@ -1,6 +1,0 @@
----
-- name: yum install git-all
-  action: yum pkg=git-all state=latest
-- name: useradd git
-  action: user name=git home=/home/git
-- include: common/authorized_keys.yml user=git

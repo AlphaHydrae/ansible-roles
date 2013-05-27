@@ -1,0 +1,11 @@
+---
+- name: mkdir /web
+  action: file path=/web group=${hostname}-web mode=0751 state=directory
+- name: mkdir /web/conf.d
+  action: file path=/web/conf.d state=directory
+- name: mkdir /web/security
+  action: file path=/web/security mode=0700 state=directory
+- name: mkdir /web/sites
+  action: file path=/web/sites group=${hostname}-web mode=0751 state=directory
+- name: copy /web/nginx.conf
+  copy: src=nginx.web.conf dest=/web/nginx.conf force=no

@@ -4,9 +4,9 @@
 - name: mkdir /var/lib/pgsql/data/ansible/pg_ident
   action: file path=/var/lib/pgsql/data/ansible/pg_ident group=postgres owner=postgres mode=0700 state=directory
 - name: template pg_hba system
-  action: template src=templates/postgresql/pg_hba.conf.j2 dest=/var/lib/pgsql/data/ansible/pg_hba/0system group=postgres owner=postgres mode=0700
+  action: template src=pg_hba.conf.j2 dest=/var/lib/pgsql/data/ansible/pg_hba/0system group=postgres owner=postgres mode=0700
 - name: template pg_ident system
-  action: template src=templates/postgresql/pg_ident.conf.j2 dest=/var/lib/pgsql/data/ansible/pg_ident/0system group=postgres owner=postgres mode=0700
+  action: template src=pg_ident.conf.j2 dest=/var/lib/pgsql/data/ansible/pg_ident/0system group=postgres owner=postgres mode=0700
 - name: assemble pg_hba.conf
   action: assemble src=/var/lib/pgsql/data/ansible/pg_hba dest=/var/lib/pgsql/data/pg_hba.conf group=postgres owner=postgres mode=0600
   notify:

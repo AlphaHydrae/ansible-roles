@@ -1,5 +1,5 @@
 ---
-- name: postfix
+- name: yum install postfix
   action: yum pkg=postfix state=latest
 - name: start postfix
   action: service name=postfix enabled=yes state=started
@@ -35,8 +35,8 @@
   action: lineinfile dest=/etc/postfix/main.cf regexp=^smtp_sasl_security_options insertafter=EOF line="smtp_sasl_security_options ="
   notify:
     - restart postfix
-- name: file /etc/postfix/sasl_passwd
-  action: template src=templates/postfix/sasl_passwd.j2 dest=/etc/postfix/sasl_passwd
+- name: template /etc/postfix/sasl_passwd
+  action: template src=sasl_passwd.j2 dest=/etc/postfix/sasl_passwd
   notify:
     - restart postfix
 - name: postmap /etc/postfix/sasl_passwd

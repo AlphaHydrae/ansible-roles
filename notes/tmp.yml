@@ -1,0 +1,19 @@
+---
+- hosts: test
+  connection: ssh
+  user: root
+  tasks:
+    - include: projects/blog.yml
+  handlers:
+    - include: webservers/tasks/handlers.yml
+#- hosts: test
+#  gather_facts: false
+#  connection: ssh
+#  user: root
+#  tasks:
+#    - action: easy_install name=pip
+#    - action: pip name=pyzmq state=present
+#    - action: pip name=pyasn1
+#    - action: pip name=PyCrypto 
+#    - action: pip name=python-keyczar
+#    - action: fireball

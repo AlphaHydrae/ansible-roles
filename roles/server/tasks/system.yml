@@ -1,0 +1,7 @@
+---
+- name: install hostname file
+  action: template src=hostname.j2 dest=/etc/hostname
+- name: copy /etc/motd
+  action: copy src=inventories/${name}/motd/${hostname} dest=/etc/motd
+- name: forward root mail
+  action: template src=forward.j2 dest=/root/.forward

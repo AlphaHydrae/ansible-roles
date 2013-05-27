@@ -1,2 +1,0 @@
-- name: firewalld add ${type} ${action}
-  action: script scripts/firewalld.add.sh ${type} ${action}

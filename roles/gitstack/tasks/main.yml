@@ -1,0 +1,4 @@
+---
+- name: yum install git-all
+  action: yum pkg=git-all state=latest
+# TODO: install hub

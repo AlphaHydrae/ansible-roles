@@ -1,0 +1,5 @@
+---
+- include: nginx.yml
+- include: selinux.yml
+- include: start.yml
+- include: webdir.yml

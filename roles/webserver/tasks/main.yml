@@ -1,6 +1,4 @@
 ---
 - include: group.yml
-- include: nginx.yml
-- include: selinux.yml
 - include: webdir.yml
-- include: start.yml
+- include: certificate.yml

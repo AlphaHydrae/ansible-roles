@@ -1,3 +1,5 @@
 ---
-- name: groupadd ${hostname}-web
-  action: group name=${hostname}-web
+- name: groupadd ${HOSTNAME}-web
+  group: name=${HOSTNAME}-web state=present
+  tags:
+    - web

@@ -1,0 +1,5 @@
+---
+- name: configure selinux to allow nginx access to /web
+  action: script roles/nginxserver/scripts/webdir.selinux.sh
+  tags:
+    - nginx

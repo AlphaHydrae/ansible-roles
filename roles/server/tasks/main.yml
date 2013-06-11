@@ -1,5 +1,5 @@
 ---
 - include: system.yml
-- include: tools.yml
-- include: sshd.yml
-- include: logwatch.yml
+- include: tools-${os_family}.yml
+- include: ssh.yml
+- include: logwatch-${os_family}.yml

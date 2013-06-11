@@ -1,7 +1,19 @@
 ---
 - name: install hostname file
   action: template src=hostname.j2 dest=/etc/hostname
-- name: copy /etc/motd
-  action: copy src=inventories/${name}/motd/${hostname} dest=/etc/motd
+  tags:
+    - system
+- name: copy /etc/motd (fedora)
+  action: copy src=inventories/${name}/motd dest=/etc/motd
+  when: os_family == 'fedora'
+  tags:
+    - system
+- name: copy /etc/motd.tail (ubuntu)
+  action: copy src=inventories/${name}/motd dest=/etc/motd.tail
+  when: os_family == 'ubuntu'
+  tags:
+    - system
 - name: forward root mail
   action: template src=forward.j2 dest=/root/.forward
+  tags:
+    - system

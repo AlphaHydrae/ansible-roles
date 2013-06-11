@@ -1,0 +1,7 @@
+---
+- name: reload monit
+  command: /usr/bin/monit reload
+  when: PACKAGE_MANAGER != 'macports'
+- name: reload monit
+  command: /opt/local/bin/monit reload
+  when: PACKAGE_MANAGER == 'macports'

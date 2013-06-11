@@ -1,14 +1,14 @@
 ---
 - name: apt-get install postfix
   apt: pkg=postfix state=latest
-  when: package_manager == "apt"
+  when: PACKAGE_MANAGER == "apt"
   notify:
     - restart postfix
   tags:
     - postfix
 - name: yum install postfix
   yum: pkg=postfix state=latest
-  when: package_manager == "yum"
+  when: PACKAGE_MANAGER == "yum"
   notify:
     - restart postfix
   tags:
@@ -18,19 +18,19 @@
   tags:
     - postfix
 - name: configure postfix domain
-  lineinfile: dest=/etc/postfix/main.cf regexp='^mydomain ?=' insertafter=^#mydomain line="mydomain = ${postfix_domain}"
+  lineinfile: dest=/etc/postfix/main.cf regexp='^mydomain ?=' insertafter=^#mydomain line="mydomain = ${POSTFIX_DOMAIN}"
   notify:
     - restart postfix
   tags:
     - postfix
 - name: configure postfix hostname
-  lineinfile: dest=/etc/postfix/main.cf regexp='^myhostname ?=' insertafter=^#myhostname line="myhostname = ${postfix_hostname}"
+  lineinfile: dest=/etc/postfix/main.cf regexp='^myhostname ?=' insertafter=^#myhostname line="myhostname = ${POSTFIX_HOSTNAME}"
   notify:
     - restart postfix
   tags:
     - postfix
 - name: configure postfix relayhost
-  lineinfile: dest=/etc/postfix/main.cf regexp='^relayhost ?=' insertafter=^#relayhost line="relayhost = ${postfix_relayhost}"
+  lineinfile: dest=/etc/postfix/main.cf regexp='^relayhost ?=' insertafter=^#relayhost line="relayhost = ${POSTFIX_RELAYHOST}"
   notify:
     - restart postfix
   tags:
@@ -54,7 +54,7 @@
   tags:
     - postfix
 - name: configure postfix smtp_tls_CAfile
-  lineinfile: dest=/etc/postfix/main.cf regexp='^smtp_tls_CAfile ?=' line="smtp_tls_CAfile = ${postfix_certs}"
+  lineinfile: dest=/etc/postfix/main.cf regexp='^smtp_tls_CAfile ?=' line="smtp_tls_CAfile = ${POSTFIX_CERTS}"
   notify:
     - restart postfix
   tags:

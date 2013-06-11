@@ -1,11 +1,11 @@
 ---
 - name: restart ssh
   service: name=sshd state=restarted
-  when: os_family == 'fedora'
+  when: OS_FAMILY == 'fedora'
   tags:
     - ssh
 - name: restart ssh
   service: name=ssh state=restarted
-  when: os_family == 'ubuntu'
+  when: OS_FAMILY == 'ubuntu'
   tags:
     - ssh

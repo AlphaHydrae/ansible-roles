@@ -1,0 +1,36 @@
+---
+- name: yum install monit
+  yum: name=monit state=latest
+  when: PACKAGE_MANAGER == 'yum'
+  tags:
+    - monit
+- name: apt-get install monit
+  apt: name=monit state=latest
+  when: PACKAGE_MANAGER == 'apt'
+  tags:
+    - monit
+- name: port install monit
+  macports: name=monit state=present
+  when: PACKAGE_MANAGER == 'macports'
+  tags:
+    - monit
+- name: template ${MONIT_CONFIG}
+  template: src=monitrc.j2 dest=${MONIT_CONFIG} group=root owner=root mode=0600
+  notify:
+    - reload monit
+  tags:
+    - monit
+- name: mkdir ${MONIT_CONFIG_DIR}
+  file: path=${MONIT_CONFIG_DIR} group=root owner=root mode=0700 state=directory
+  tags:
+    - monit
+- name: start monit
+  service: name=monit enabled=yes state=started
+  when: PACKAGE_MANAGER != 'macports'
+  tags:
+    - monit
+- name: port load monit
+  script: scripts/macports-load.sh com.tildeslash.monit
+  when: PACKAGE_MANAGER == 'macports'
+  tags:
+    - monit

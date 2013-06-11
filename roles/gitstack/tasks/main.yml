@@ -1,4 +1,12 @@
 ---
 - name: yum install git-all
-  action: yum pkg=git-all state=latest
+  yum: pkg=git-all state=latest
+  when: PACKAGE_MANAGER == 'yum'
+  tags:
+    - git
+- name: apt-get install git-all
+  apt: pkg=git-all state=latest
+  when: PACKAGE_MANAGER == 'apt'
+  tags:
+    - git
 # TODO: install hub

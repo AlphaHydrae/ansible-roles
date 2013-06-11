@@ -4,13 +4,13 @@
   tags:
     - system
 - name: copy /etc/motd (fedora)
-  action: copy src=inventories/${name}/motd dest=/etc/motd
-  when: os_family == 'fedora'
+  action: copy src=.env.d/${NAME}/motd dest=/etc/motd
+  when: OS_FAMILY == 'fedora'
   tags:
     - system
 - name: copy /etc/motd.tail (ubuntu)
-  action: copy src=inventories/${name}/motd dest=/etc/motd.tail
-  when: os_family == 'ubuntu'
+  action: copy src=.env.d/${NAME}/motd dest=/etc/motd.tail
+  when: OS_FAMILY == 'ubuntu'
   tags:
     - system
 - name: forward root mail

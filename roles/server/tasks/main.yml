@@ -1,5 +1,10 @@
 ---
+- name: apt-get update
+  apt: update-cache=yes
+  when: PACKAGE_MANAGER == 'apt'
+  tags:
+    - package
 - include: system.yml
-- include: tools-${os_family}.yml
+- include: tools-${OS_FAMILY}.yml
 - include: ssh.yml
-- include: logwatch-${os_family}.yml
+- include: logwatch-${OS_FAMILY}.yml

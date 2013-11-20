@@ -5,6 +5,7 @@
     - build-essential
     - curl
     - python-setuptools
+    - rsync
     - vim
     - wget
     - zsh

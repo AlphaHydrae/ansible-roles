@@ -1,0 +1,12 @@
+# interfaces(5) file used by ifup(8) and ifdown(8)
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet static
+  address ${NETWORK_ETH_ADDRESS}
+  gateway ${NETWORK_ETH_GATEWAY}
+  netmask ${NETWORK_ETH_NETMASK}
+  network ${NETWORK_ETH_NETWORK}
+  broadcast ${NETWORK_ETH_BROADCAST}
+  dns-nameservers ${NETWORK_ETH_NAMESERVERS}

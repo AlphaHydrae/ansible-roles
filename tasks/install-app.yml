@@ -1,0 +1,29 @@
+- name: Check if $app_name is installed
+  shell: test -d "/Applications/${app_name}.app" && echo "yes" || echo "no"
+  register: installed
+- name: Copy $app_name
+  copy: src="${APPLICATIONS}/${app_name} ${app_version}.${archive_type}" dest="${DOWNLOADS}/${app_name}.${archive_type}" owner=${USERNAME}
+  when: installed.stdout == "no"
+# Disk Images
+- name: Mount $app_name image
+  command: hdiutil attach "${app_name}.dmg" -mountpoint "/Volumes/${app_name}" chdir="$DOWNLOADS"
+  when: installed.stdout == "no" and archive_type == 'dmg'
+- name: Copy $app_name app to /Applications
+  command: cp -R "/Volumes/${app_name}/${app_name}.app" /Applications
+  when: installed.stdout == "no" and archive_type == 'dmg'
+- name: Unmount $app_name image
+  command: hdiutil detach "/Volumes/${app_name}"
+  when: installed.stdout == "no" and archive_type == 'dmg'
+# Zip Files
+- name: Unzip ${app_name}
+  command: unzip "${app_name}.zip" "${app_name}*" chdir="$DOWNLOADS"
+  when: installed.stdout == "no" and archive_type == 'zip'
+- name: Copy $app_name app to /Applications
+  command: cp -R "${DOWNLOADS}/${app_name}.app" /Applications
+  when: installed.stdout == "no" and archive_type == 'zip'
+- name: Clean unzipped app
+  command: rm -fr "${DOWNLOADS}/${app_name}.app"
+  when: installed.stdout == "no" and archive_type == 'zip'
+- name: Set $app_name permissions
+  file: path="/Applications/${app_name}.app" owner=${USERNAME} state=directory recurse=yes
+  when: installed.stdout == "no"

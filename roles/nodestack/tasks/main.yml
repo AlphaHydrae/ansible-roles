@@ -1,5 +1,9 @@
 ---
-- name: yum install nodejs
-  action: yum pkg=nodejs state=latest
-- name: yum install npm
-  action: yum pkg=npm state=latest
+- yum: pkg=nodejs state=latest
+  when: PACKAGE_MANAGER == "yum"
+- yum: pkg=npm state=latest
+  when: PACKAGE_MANAGER == "yum"
+- macports: name=nodejs state=installed
+  when: PACKAGE_MANAGER == "macports"
+- macports: name=npm state=installed
+  when: PACKAGE_MANAGER == "macports"

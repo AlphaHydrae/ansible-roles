@@ -1,0 +1,9 @@
+- name: Check if $app_name is installed
+  shell: test -d "/Applications/${install_target}" && echo "yes" || echo "no"
+  register: installed
+- name: Copy $app_name
+  copy: src="${APPLICATIONS}/${app_name} ${app_version}.${archive_type}" dest="${DOWNLOADS}/${app_name}.${archive_type}" owner=${USERNAME}
+  when: installed.stdout == "no"
+- name: Link $app_name
+  file: path="/Users/${USERNAME}/Desktop/${app_name}.${archive_type}" src="${DOWNLOADS}/${app_name}.${archive_type}" state=link
+  when: installed.stdout == "no"

@@ -1,6 +1,6 @@
 ---
 - include: rvm.yml
-- include: rvm.ruby.deps.yml
-  when: ruby_version is defined
-- include: rvm.ruby.yml
-  when: ruby_version is defined
+#- include: rvm.ruby.deps.yml
+#  when: ruby_version is defined
+#- include: rvm.ruby.yml
+#  when: ruby_version is defined

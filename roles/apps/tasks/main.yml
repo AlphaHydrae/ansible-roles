@@ -1,0 +1,21 @@
+---
+- name: Create downloads directory
+  file: path=${DOWNLOADS} owner=${USERNAME} state=directory
+- include: install-app.yml app_name="Firefox" app_version="26.0" archive_type=dmg
+- include: install-app.yml app_name="Google Chrome" app_version="32.0" archive_type=dmg
+- include: install-app.yml app_name="Quicksilver" app_version="1.1.3" archive_type=dmg
+- include: install-app.yml app_name="Adium" app_version="1.5.9" archive_type=dmg
+- include: install-app.yml app_name="Colloquy" app_version="2.4.2" archive_type=zip
+- include: install-app.yml app_name="Cyberduck" app_version="4.4.3" archive_type=zip
+- include: install-app.yml app_name="HandBrake" app_version="0.9.9" archive_type=dmg
+- include: install-app.yml app_name="LibreOffice" app_version="4.1.4" archive_type=dmg
+- include: install-app.yml app_name="Skype" app_version="6.12" archive_type=dmg
+- include: install-app.yml app_name="smcFanControl" app_version="2.4" archive_type=zip
+- include: install-app.yml app_name="Stuffit Expander" app_version="15.0.7" archive_type=dmg
+- include: install-app.yml app_name="TextMate" app_version="2.0-alpha" archive_type=tbz
+- include: install-app.yml app_name="Transmission" app_version="2.82" archive_type=dmg
+- include: install-app.yml app_name="VLC" app_version="2.1.2" archive_type=dmg
+- include: link-installer.yml app_name="VirtualBox" app_version="4.3.6" archive_type=dmg install_target="VirtualBox.app"
+- include: link-installer.yml app_name="VMware Fusion" app_version="6.0.2" archive_type=dmg install_target="VMware Fusion.app"
+- include: link-installer.yml app_name="TrueCrypt" app_version="7.1a" archive_type=dmg install_target="TrueCrypt.app"
+- include: link-installer.yml app_name="MacTeX" app_version="2013" archive_type=pkg install_target="TeX"

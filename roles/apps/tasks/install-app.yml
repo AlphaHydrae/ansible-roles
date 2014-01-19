@@ -1,0 +1,5 @@
+- name: Check if $app_name is installed
+  shell: test -d "/Applications/${app_name}.app" && echo "yes" || echo "no"
+  register: installed
+- include: install-new-app.yml 
+  when: installed.stdout == "no"

@@ -24,6 +24,17 @@
 - name: Clean unzipped app
   command: rm -fr "${DOWNLOADS}/${app_name}.app"
   when: installed.stdout == "no" and archive_type == 'zip'
+# Tbz Files
+- name: Extract ${app_name}
+  command: tar -xzf "${app_name}.tbz" chdir="$DOWNLOADS"
+  when: installed.stdout == "no" and archive_type == "tbz"
+- name: Copy $app_name app to /Applications
+  command: cp -R "${DOWNLOADS}/${app_name}.app" /Applications
+  when: installed.stdout == "no" and archive_type == "tbz"
+- name: Clean unzipped app
+  command: rm -fr "${DOWNLOADS}/${app_name}.app"
+  when: installed.stdout == "no" and archive_type == "tbz"
+# Finalize
 - name: Set $app_name permissions
   file: path="/Applications/${app_name}.app" owner=${USERNAME} state=directory recurse=yes
   when: installed.stdout == "no"

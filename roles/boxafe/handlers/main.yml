@@ -1,0 +1,2 @@
+- name: index ports
+  command: /opt/local/bin/portindex chdir="/opt/ports"

@@ -1,0 +1,6 @@
+- name: Make custom Port directory
+  file: path="/opt/ports" state=directory
+  tags: macports
+- name: Load custom Port directory
+  lineinfile: dest=/opt/local/etc/macports/sources.conf line="file:///opt/ports" regexp="^file:\/\/" insertbefore="^rsync:\/\/"
+  tags: macports

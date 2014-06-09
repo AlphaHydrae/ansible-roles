@@ -1,0 +1,41 @@
+- macports: name=ansible state=installed update_cache=yes
+  tags: dev
+- macports: name={{ item }} state=installed
+  with_items:
+    - curl
+    - gnupg
+    - go # required for direnv
+    - py27-pip
+    - rsync
+    - ruby19
+    - ruby20
+    - ruby21
+    - sqlite3
+    - wget
+    - zsh
+  tags: dev
+- script: common/port-select.sh pip pip27
+  tags: dev
+- script: common/port-select.sh ruby ruby21
+  tags: dev
+- script: common/port-select.sh python python27
+  tags: dev
+# Other Tools
+- file: path=/opt/bin state=directory
+  tags: dev
+# ack
+- get_url: url=http://beyondgrep.com/ack-2.12-single-file dest=/opt/bin/ack mode=0755
+  tags: dev
+# direnv
+- git: repo=https://github.com/zimbatm/direnv.git dest=/opt/direnv executable=/opt/local/bin/git
+  notify:
+    - install direnv
+  tags: dev
+# gems
+- command: su - unknow -c "cd && source .rvm/scripts/rvm && gem install --no-rdoc --no-ri {{ item.name }}" creates="{{ USERHOME }}/.rvm/gems/ruby-{{ DEFAULT_RUBY }}/bin/{{ item.bin }}"
+  with_items:
+    - { name: 'git_go', bin: 'gg' }
+    - { name: 'scide', bin: 'scide' }
+  tags:
+    - dev
+    - gems

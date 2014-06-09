@@ -1,19 +1,13 @@
 - name: Install gitenv gem
   command: su - {{ USERNAME }} -c "cd && source .rvm/scripts/rvm && gem install --no-rdoc --no-ri gitenv" creates="{{ USERHOME }}/.rvm/gems/ruby-{{ DEFAULT_RUBY }}/bin/gitenv"
-  tags: gitenv
 - name: Link gitenv configuration
   file: path="{{ USERHOME }}/.gitenv.rb" src="{{ gitenv_config }}" state=link
   notify: apply gitenv
-  tags: gitenv
 - name: Back up .bashrc
   command: su - {{ USERNAME }} -c "cd && mv .bashrc {{ INSTALLATION_TARGET }}/original-bashrc.txt" creates="{{ INSTALLATION_TARGET }}/original-bashrc.txt"
-  tags: gitenv
 - name: Back up .zshrc
   command: su - {{ USERNAME }} -c "cd && mv .zshrc {{ INSTALLATION_TARGET }}/original-zshrc.txt" creates="{{ INSTALLATION_TARGET }}/original-zshrc.txt"
-  tags: gitenv
 - name: Back up prompt_adam2_setup
   command: su - root -c "mv /opt/local/share/zsh/{{ ZSH_VERSION }}/functions/prompt_adam2_setup /opt/local/share/zsh/{{ ZSH_VERSION }}/functions/prompt_adam2_setup.orig" creates="/opt/local/share/zsh/{{ ZSH_VERSION }}/functions/prompt_adam2_setup.orig"
-  tags: gitenv
 - name: Set up prompt_adam2_setup
   command: su - root -c "cp {{ USERHOME }}/Projects/env/prompt_adam2_setup /opt/local/share/zsh/{{ ZSH_VERSION }}/functions/prompt_adam2_setup" creates="/opt/local/share/zsh/{{ ZSH_VERSION }}/functions/prompt_adam2_setup"
-  tags: gitenv

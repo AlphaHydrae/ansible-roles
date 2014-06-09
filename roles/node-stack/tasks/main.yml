@@ -1,7 +1,9 @@
 ---
-- yum: pkg=nodejs state=latest
+- name: Install NodeJS
+  yum: pkg=nodejs state=latest
   when: PACKAGE_MANAGER == "yum"
-- yum: pkg=npm state=latest
+- name: Install NPM
+  yum: pkg=npm state=latest
   when: PACKAGE_MANAGER == "yum"
 - name: Install NodeJS
   macports: name=nodejs state=installed

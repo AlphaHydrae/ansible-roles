@@ -13,7 +13,6 @@
     - ruby21
     - sqlite3
     - wget
-    - zsh
 - name: Select pip27 port
   script: common/port-select.sh pip pip27
   register: selected

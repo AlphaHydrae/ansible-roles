@@ -5,58 +5,35 @@
     - autoconf
     - automake
     - libtool
-  tags:
-    - encfs
-    - boxafe
 - name: Make Portfiles directory
   file: path="/opt/ports/fuse/encfs" state=directory
-  tags:
-    - encfs
-    - boxafe
 - name: Install EncFS patched Portfile
   copy: src=Portfile.encfs dest="/opt/ports/fuse/encfs/Portfile"
   notify:
     - index ports
-  tags:
-    - encfs
-    - boxafe
 - name: Install EncFS
   macports: name=encfs state=installed
-  tags:
-    - encfs
-    - boxafe
 # Boxafe
 - name: Ensure boxafe name is in environment file
   lineinfile: line="BOXAFE_NAME=\"{{ BOXAFE_NAME }}\"" dest="{{ USERHOME }}/.env" state=present create=yes group=staff owner={{ USERNAME }} mode=0600
-  tags: boxafe
 - name: Ensure boxafe root is in environment file
   lineinfile: line="BOXAFE_ROOT=\"{{ BOXAFE_ROOT }}\"" dest="{{ USERHOME }}/.env" state=present create=yes group=staff owner={{ USERNAME }} mode=0600
-  tags: boxafe
 - name: Ensure boxafe EncFS config is in environment file
   lineinfile: line="BOXAFE_ENCFS_CONFIG=\"~/{{ BOXAFE_ENCFS_CONFIG }}\"" dest="{{ USERHOME }}/.env" state=present create=yes group=staff owner={{ USERNAME }} mode=0600
-  tags: boxafe
 - name: Ensure boxafe password file is in environment file
   lineinfile: line="BOXAFE_PASSWORD_FILE=\"~/{{ BOXAFE_PASSWORD_FILE }}\"" dest="{{ USERHOME }}/.env" state=present create=yes group=staff owner={{ USERNAME }} mode=0600
-  tags: boxafe
 - name: Install boxafe gem
   command: su - unknow -c "cd && source .rvm/scripts/rvm && gem install --no-rdoc --no-ri boxafe" creates="{{ USERHOME }}/.rvm/gems/ruby-{{ DEFAULT_RUBY }}/bin/boxafe"
-  tags: boxafe
 - name: Ensure EncFS config file permissions
   file: path="{{ USERHOME }}/{{ BOXAFE_ENCFS_CONFIG }}" group=staff owner={{ USERNAME }} mode=0400
-  tags: boxafe
 - name: Ensure safebox password file permissions
   file: path="{{ USERHOME }}/{{ BOXAFE_PASSWORD_FILE }}" group=staff owner={{ USERNAME }} mode=0400
-  tags: boxafe
 - name: Ensure boxafe configuration
   file: path="{{ USERHOME }}/.boxafe.rb" src="{{ boxafe_config }}" state=link
-  tags: boxafe
 - name: Mount boxafe
   command: su - {{ USERNAME }} -c "cd && export PATH=/opt/local/bin:$PATH && source .rvm/scripts/rvm && boxafe mount" creates=/Volumes/{{ BOXAFE_NAME }}
-  tags: boxafe
 - name: Link Safebox
   file: path="{{ USERHOME }}/Safebox" src="/Volumes/Safebox" state=link
   notify: apply gitenv
-  tags: boxafe
 - name: Mount boxafe on startup
   command: su - {{ USERNAME }} -c "cd && source .rvm/scripts/rvm && boxafe start" creates="{{ USERHOME }}/Library/LaunchAgents/com.alphahydrae.boxafe.plist"
-  tags: boxafe

@@ -1,0 +1,41 @@
+- name: Make projects directory
+  file: path="{{ USERHOME }}/Projects" owner={{ USERNAME }} group={{ USERGROUP }} mode=0700 state=directory
+- include: clone-project.yml project_owner=AlphaHydrae project_name=backbone-relational-hal
+- include: clone-project.yml project_owner=AlphaHydrae project_name=backbone-relational-hal-rails
+- include: clone-project.yml project_owner=AlphaHydrae project_name=boxafe
+- include: clone-project.yml project_owner=AlphaHydrae project_name=blog
+- include: clone-project.yml project_owner=AlphaHydrae project_name=config
+- include: clone-project.yml project_owner=AlphaHydrae project_name=cside-erp
+- include: clone-project.yml project_owner=AlphaHydrae project_name=doa
+- include: clone-project.yml project_owner=AlphaHydrae project_name=docco-central
+- include: clone-project.yml project_owner=AlphaHydrae project_name=filtrum
+- include: clone-project.yml project_owner=AlphaHydrae project_name=gitenv
+- include: clone-project.yml project_owner=AlphaHydrae project_name=inimit
+- include: clone-project.yml project_owner=AlphaHydrae project_name=jasmine-growl-reporter
+- include: clone-project.yml project_owner=AlphaHydrae project_name=kompar
+- include: clone-project.yml project_owner=AlphaHydrae project_name=lair
+- include: clone-project.yml project_owner=AlphaHydrae project_name=multi_redis
+- include: clone-project.yml project_owner=AlphaHydrae project_name=multi_scheduler
+- include: clone-project.yml project_owner=AlphaHydrae project_name=notifies
+- include: clone-project.yml project_owner=AlphaHydrae project_name=rake-version
+- include: clone-project.yml project_owner=AlphaHydrae project_name=scide
+- include: clone-project.yml project_owner=AlphaHydrae project_name=tableling
+- include: clone-project.yml project_owner=AlphaHydrae project_name=tableling-rails
+- include: clone-project.yml project_owner=AlphaHydrae project_name=vim-epidemic
+- include: clone-project.yml project_owner=AlphaHydrae project_name=which_works
+# Forks
+- include: clone-project.yml project_owner=AlphaHydrae project_name=Backbone-relational project_upstream=PaulUithol/Backbone-relational
+- include: clone-project.yml project_owner=AlphaHydrae project_name=backup project_upstream=meskyanichi/backup
+- include: clone-project.yml project_owner=AlphaHydrae project_name=commander.js project_upstream=visionmedia/commander.js
+- include: clone-project.yml project_owner=AlphaHydrae project_name=direnv project_upstream=zimbatm/direnv
+- include: clone-project.yml project_owner=AlphaHydrae project_name=dotenv project_upstream=bkeepers/dotenv
+- include: clone-project.yml project_owner=AlphaHydrae project_name=electrolyte project_upstream=jaredhanson/electrolyte
+- include: clone-project.yml project_owner=AlphaHydrae project_name=fakefs project_upstream=defunkt/fakefs
+- include: clone-project.yml project_owner=AlphaHydrae project_name=git_go project_upstream=meskyanichi/git_go
+- include: clone-project.yml project_owner=AlphaHydrae project_name=grunt-contrib-jasmine project_upstream=gruntjs/grunt-contrib-jasmine
+- include: clone-project.yml project_owner=AlphaHydrae project_name=grunt-jasmine-node project_upstream=jasmine-contrib/grunt-jasmine-node
+- include: clone-project.yml project_owner=AlphaHydrae project_name=jasmine-node project_upstream=mhevery/jasmine-node
+- include: clone-project.yml project_owner=AlphaHydrae project_name=LaunchDR project_upstream=ELLIOTTCABLE/LaunchDR
+- include: clone-project.yml project_owner=AlphaHydrae project_name=shields.io project_upstream=badges/shields
+- include: clone-project.yml project_owner=AlphaHydrae project_name=underscore project_upstream=jashkenas/underscore
+- include: clone-project.yml project_owner=AlphaHydrae project_name=whenever project_upstream=javan/whenever

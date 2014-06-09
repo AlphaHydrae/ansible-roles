@@ -1,4 +1,5 @@
-- command: su - root -c "/opt/local/bin/npm install -g {{ item.name }}" creates=/opt/local/bin/{{ item.bin }}
+- name: Install dev NPM modules
+  command: su - root -c "/opt/local/bin/npm install -g {{ item.name }}" creates=/opt/local/bin/{{ item.bin }}
   with_items:
     - { name: 'bower', bin: 'bower' }
     - { name: 'docker', bin: 'docker' }
@@ -7,4 +8,3 @@
     - { name: 'markdown-preview', bin: 'markdown-preview' }
     - { name: 'nodemon', bin: 'nodemon' }
   when: PACKAGE_MANAGER == 'macports'
-  tags: node

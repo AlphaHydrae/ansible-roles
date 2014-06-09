@@ -1,5 +1,6 @@
 - name: Check if $app_name is installed
-  shell: test -d "/Applications/{{ app_name }}.app" && echo "yes" || echo "no"
+  shell: test -d "/Applications/{{ app_name }}.app"
   register: installed
+  changed_when: installed.rc != 0
 - include: install-new-app.yml 
-  when: installed.stdout == "no"
+  when: installed|changed

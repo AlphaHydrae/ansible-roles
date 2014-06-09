@@ -1,13 +1,11 @@
 ---
 - yum: pkg=nodejs state=latest
   when: PACKAGE_MANAGER == "yum"
-  tags: node
 - yum: pkg=npm state=latest
   when: PACKAGE_MANAGER == "yum"
-  tags: node
-- macports: name=nodejs state=installed
+- name: Install NodeJS
+  macports: name=nodejs state=installed
   when: PACKAGE_MANAGER == "macports"
-  tags: node
-- macports: name=npm state=installed
+- name: Install NPM
+  macports: name=npm state=installed
   when: PACKAGE_MANAGER == "macports"
-  tags: node

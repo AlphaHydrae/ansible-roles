@@ -1,0 +1,15 @@
+- name: Install ruby 1.9 port
+  macports: name=ruby19 state=installed
+  tags: vim
+- name: Install vim with ruby support
+  script: common/port-install.sh vim +ruby19
+  tags: vim
+- name: Install vim-epidemic gem
+  command: su - {{ USERNAME }} -c "cd && source .rvm/scripts/rvm && gem install --no-rdoc --no-ri vim-epidemic" creates="{{ USERHOME }}/.rvm/gems/ruby-{{ DEFAULT_RUBY }}/bin/vim-epidemic"
+  tags: vim
+- name: Install pathogen
+  command: su - {{ USERNAME }} -c "mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim" creates="{{ USERHOME }}/.vim/autoload/pathogen.vim"
+  tags: vim
+- name: Run vim-epidemic
+  command: su - {{ USERNAME }} -c "cd && export VIM_RUBY=/opt/local/bin/ruby1.9 && source .rvm/scripts/rvm && vim-epidemic update" creates={{ USERHOME }}/.vim/bundle/Command-T
+  tags: vim

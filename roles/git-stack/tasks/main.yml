@@ -2,17 +2,15 @@
 - name: yum install git-all
   yum: pkg=git-all state=latest
   when: PACKAGE_MANAGER == 'yum'
-  tags: git
 - name: apt-get install git-all
   apt: pkg=git-all state=latest
   when: PACKAGE_MANAGER == 'apt'
-  tags: git
-- macports: name=git-core state=installed
+- name: Install Git
+  macports: name=git-core state=installed
   when: PACKAGE_MANAGER == 'macports'
-  tags: git
-- macports: name=git-extras state=installed
+- name: Install Git extras
+  macports: name=git-extras state=installed
   when: PACKAGE_MANAGER == 'macports'
-  tags: git
-- macports: name=hub state=installed
+- name: Install hub
+  macports: name=hub state=installed
   when: PACKAGE_MANAGER == 'macports'
-  tags: git

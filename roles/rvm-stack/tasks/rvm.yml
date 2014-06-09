@@ -1,0 +1,2 @@
+- name: Install RVM for the main user
+  command: su -l {{ USERNAME }} -c 'cd && curl -sSL https://get.rvm.io | bash -s stable' creates={{ USERHOME }}/.rvm

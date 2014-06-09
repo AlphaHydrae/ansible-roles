@@ -8,6 +8,7 @@ Install EncFS and set up boxafe.
 
 The following variables must be available:
 
+* `boxafe_config`
 * `USERNAME`
 * `USERHOME`
 * `DEFAULT_RUBY`

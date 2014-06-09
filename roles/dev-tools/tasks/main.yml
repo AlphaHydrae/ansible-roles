@@ -1,6 +1,7 @@
-- macports: name=ansible state=installed update_cache=yes
-  tags: dev
-- macports: name={{ item }} state=installed
+- name: Install ansible and update MacPorts cache
+  macports: name=ansible state=installed update_cache=yes
+- name: Install dev tools
+  macports: name={{ item }} state=installed
   with_items:
     - curl
     - gnupg
@@ -13,29 +14,28 @@
     - sqlite3
     - wget
     - zsh
-  tags: dev
-- script: common/port-select.sh pip pip27
-  tags: dev
-- script: common/port-select.sh ruby ruby21
-  tags: dev
-- script: common/port-select.sh python python27
-  tags: dev
-# Other Tools
-- file: path=/opt/bin state=directory
-  tags: dev
-# ack
-- get_url: url=http://beyondgrep.com/ack-2.12-single-file dest=/opt/bin/ack mode=0755
-  tags: dev
-# direnv
-- git: repo=https://github.com/zimbatm/direnv.git dest=/opt/direnv executable=/opt/local/bin/git
+- name: Select pip27 port
+  script: common/port-select.sh pip pip27
+  register: selected
+  changed_when: selected.stdout.find('already active') == -1
+- name: Select ruby21 port
+  script: common/port-select.sh ruby ruby21
+  register: selected
+  changed_when: selected.stdout.find('already active') == -1
+- name: Select python27 port
+  script: common/port-select.sh python python27
+  register: selected
+  changed_when: selected.stdout.find('already active') == -1
+- name: Make /opt/bin directory
+  file: path=/opt/bin state=directory
+- name: Install ack
+  get_url: url=http://beyondgrep.com/ack-2.12-single-file dest=/opt/bin/ack mode=0755
+- name: Clone direnv
+  git: repo=https://github.com/zimbatm/direnv.git dest=/opt/direnv executable=/opt/local/bin/git
   notify:
     - install direnv
-  tags: dev
-# gems
-- command: su - unknow -c "cd && source .rvm/scripts/rvm && gem install --no-rdoc --no-ri {{ item.name }}" creates="{{ USERHOME }}/.rvm/gems/ruby-{{ DEFAULT_RUBY }}/bin/{{ item.bin }}"
+- name: Install dev gems
+  command: su - unknow -c "cd && source .rvm/scripts/rvm && gem install --no-rdoc --no-ri {{ item.name }}" creates="{{ USERHOME }}/.rvm/gems/ruby-{{ DEFAULT_RUBY }}/bin/{{ item.bin }}"
   with_items:
     - { name: 'git_go', bin: 'gg' }
     - { name: 'scide', bin: 'scide' }
-  tags:
-    - dev
-    - gems

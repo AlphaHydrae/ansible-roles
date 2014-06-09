@@ -47,14 +47,15 @@
 - name: Ensure safebox password file permissions
   file: path="{{ USERHOME }}/{{ BOXAFE_PASSWORD_FILE }}" group=staff owner={{ USERNAME }} mode=0400
   tags: boxafe
-- name: Link boxafe configuration
-  file: path="{{ USERHOME }}/.boxafe.rb" src="{{ USERHOME }}/Projects/env/.boxafe.rb" state=link
+- name: Ensure boxafe configuration
+  file: path="{{ USERHOME }}/.boxafe.rb" src="{{ boxafe_config }}" state=link
   tags: boxafe
 - name: Mount boxafe
   command: su - {{ USERNAME }} -c "cd && export PATH=/opt/local/bin:$PATH && source .rvm/scripts/rvm && boxafe mount" creates=/Volumes/{{ BOXAFE_NAME }}
   tags: boxafe
 - name: Link Safebox
   file: path="{{ USERHOME }}/Safebox" src="/Volumes/Safebox" state=link
+  notify: apply gitenv
   tags: boxafe
 - name: Mount boxafe on startup
   command: su - {{ USERNAME }} -c "cd && source .rvm/scripts/rvm && boxafe start" creates="{{ USERHOME }}/Library/LaunchAgents/com.alphahydrae.boxafe.plist"

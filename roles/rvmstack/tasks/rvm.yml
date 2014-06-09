@@ -1,8 +1,0 @@
-- name: install rvm for {{USERNAME}}
-  command: su -l {{USERNAME}} -c 'cd && curl -sSL https://get.rvm.io | bash -s stable' creates=/home/{{USERNAME}}/.rvm
-  when: OS_FAMILY != 'darwin'
-  tags: rvm
-- name: install rvm for {{USERNAME}}
-  command: su -l {{USERNAME}} -c 'cd && curl -sSL https://get.rvm.io | bash -s stable' creates=/Users/{{USERNAME}}/.rvm
-  when: OS_FAMILY == 'darwin'
-  tags: rvm

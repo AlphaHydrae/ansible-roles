@@ -1,27 +1,24 @@
 - name: Install PostgreSQL
   macports: name={{ POSTGRESQL_PORT }} state=installed
-  tags: postgresql
 - name: Install PostgreSQL documentation
   macports: name={{ POSTGRESQL_PORT }}-doc state=installed
-  tags: postgresql
 - name: Install PostgreSQL server
   macports: name={{ POSTGRESQL_PORT }}-server state=installed
-  tags: postgresql
 - name: Select PostgreSQL port
   script: common/port-select.sh postgresql {{ POSTGRESQL_PORT }}
-  tags: postgresql
+  register: selected
+  changed_when: selected.stdout.find('already active') == -1
 - name: Create PostgreSQL cluster directory
   file: path=/opt/local/var/db/{{ POSTGRESQL_PORT }}/defaultdb group=postgres owner=postgres mode=0700 state=directory
-  tags: postgresql
 - name: Initialize PostgreSQL cluster
   command: su -l postgres -c '/opt/local/lib/{{ POSTGRESQL_PORT }}/bin/initdb -D /opt/local/var/db/{{ POSTGRESQL_PORT }}/defaultdb -E UTF8 --locale=en_US.UTF8' creates=/opt/local/var/db/{{ POSTGRESQL_PORT }}/defaultdb/pg_hba.conf
-  tags: postgresql
 - name: Load PostgreSQL port
   script: common/port-load.sh {{ POSTGRESQL_PORT }}-server
-  tags: postgresql
+  register: loaded
+  changed_when: loaded.stdout.find('already loaded') == -1
 - name: Install psycopg2
   script: common/pip-install.sh psycopg2
-  tags: postgresql
+  register: installed
+  changed_when: installed.stdout.find('already installed') == -1
 - name: Create PostgreSQL user
   postgresql_user: name=unknow password="" state=present
-  tags: postgresql

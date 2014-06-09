@@ -1,0 +1,2 @@
+- name: apply gitenv
+  command: su - {{ USERNAME }} -c "cd && source .rvm/scripts/rvm && gitenv apply"

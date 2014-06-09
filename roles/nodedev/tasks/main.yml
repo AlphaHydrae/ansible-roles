@@ -1,0 +1,10 @@
+- command: su - root -c "/opt/local/bin/npm install -g {{ item.name }}" creates=/opt/local/bin/{{ item.bin }}
+  with_items:
+    - { name: 'bower', bin: 'bower' }
+    - { name: 'docker', bin: 'docker' }
+    - { name: 'express-generator', bin: 'express' }
+    - { name: 'grunt-cli', bin: 'grunt' }
+    - { name: 'markdown-preview', bin: 'markdown-preview' }
+    - { name: 'nodemon', bin: 'nodemon' }
+  when: PACKAGE_MANAGER == 'macports'
+  tags: node

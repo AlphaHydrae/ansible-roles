@@ -1,0 +1,6 @@
+- macports: name=redis state=installed
+  when: PACKAGE_MANAGER == 'macports'
+  tags: redis
+- script: common/port-load.sh redis
+  when: PACKAGE_MANAGER == 'macports'
+  tags: redis

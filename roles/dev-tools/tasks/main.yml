@@ -34,7 +34,7 @@
   notify:
     - install direnv
 - name: Install dev gems
-  command: su - unknow -c "cd && source .rvm/scripts/rvm && gem install --no-rdoc --no-ri {{ item.name }}" creates="{{ USERHOME }}/.rvm/gems/ruby-{{ DEFAULT_RUBY }}/bin/{{ item.bin }}"
+  command: su - {{ USERNAME }} -c "cd && source .rvm/scripts/rvm && gem install --no-rdoc --no-ri {{ item.name }}" creates="{{ USERHOME }}/.rvm/gems/ruby-{{ RUBY_VERSION }}/bin/{{ item.bin }}"
   with_items:
     - { name: 'git_go', bin: 'gg' }
     - { name: 'scide', bin: 'scide' }

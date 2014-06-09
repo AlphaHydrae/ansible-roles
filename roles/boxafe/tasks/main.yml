@@ -15,19 +15,19 @@
   macports: name=encfs state=installed
 # Boxafe
 - name: Ensure boxafe name is in environment file
-  lineinfile: line="BOXAFE_NAME=\"{{ BOXAFE_NAME }}\"" dest="{{ USERHOME }}/.env" state=present create=yes group=staff owner={{ USERNAME }} mode=0600
+  lineinfile: line="BOXAFE_NAME=\"{{ BOXAFE_NAME }}\"" dest="{{ USERHOME }}/.env" state=present create=yes group={{ USERGROUP }} owner={{ USERNAME }} mode=0600
 - name: Ensure boxafe root is in environment file
-  lineinfile: line="BOXAFE_ROOT=\"{{ BOXAFE_ROOT }}\"" dest="{{ USERHOME }}/.env" state=present create=yes group=staff owner={{ USERNAME }} mode=0600
+  lineinfile: line="BOXAFE_ROOT=\"{{ BOXAFE_ROOT }}\"" dest="{{ USERHOME }}/.env" state=present create=yes group={{ USERGROUP }} owner={{ USERNAME }} mode=0600
 - name: Ensure boxafe EncFS config is in environment file
-  lineinfile: line="BOXAFE_ENCFS_CONFIG=\"~/{{ BOXAFE_ENCFS_CONFIG }}\"" dest="{{ USERHOME }}/.env" state=present create=yes group=staff owner={{ USERNAME }} mode=0600
+  lineinfile: line="BOXAFE_ENCFS_CONFIG=\"~/{{ BOXAFE_ENCFS_CONFIG }}\"" dest="{{ USERHOME }}/.env" state=present create=yes group={{ USERGROUP }} owner={{ USERNAME }} mode=0600
 - name: Ensure boxafe password file is in environment file
-  lineinfile: line="BOXAFE_PASSWORD_FILE=\"~/{{ BOXAFE_PASSWORD_FILE }}\"" dest="{{ USERHOME }}/.env" state=present create=yes group=staff owner={{ USERNAME }} mode=0600
+  lineinfile: line="BOXAFE_PASSWORD_FILE=\"~/{{ BOXAFE_PASSWORD_FILE }}\"" dest="{{ USERHOME }}/.env" state=present create=yes group={{ USERGROUP }} owner={{ USERNAME }} mode=0600
 - name: Install boxafe gem
-  command: su - unknow -c "cd && source .rvm/scripts/rvm && gem install --no-rdoc --no-ri boxafe" creates="{{ USERHOME }}/.rvm/gems/ruby-{{ DEFAULT_RUBY }}/bin/boxafe"
+  command: su - {{ USERNAME }} -c "cd && source .rvm/scripts/rvm && gem install --no-rdoc --no-ri boxafe" creates="{{ USERHOME }}/.rvm/gems/ruby-{{ RUBY_VERSION }}/bin/boxafe"
 - name: Ensure EncFS config file permissions
-  file: path="{{ USERHOME }}/{{ BOXAFE_ENCFS_CONFIG }}" group=staff owner={{ USERNAME }} mode=0400
+  file: path="{{ USERHOME }}/{{ BOXAFE_ENCFS_CONFIG }}" group={{ USERGROUP }} owner={{ USERNAME }} mode=0400
 - name: Ensure safebox password file permissions
-  file: path="{{ USERHOME }}/{{ BOXAFE_PASSWORD_FILE }}" group=staff owner={{ USERNAME }} mode=0400
+  file: path="{{ USERHOME }}/{{ BOXAFE_PASSWORD_FILE }}" group={{ USERGROUP }} owner={{ USERNAME }} mode=0400
 - name: Ensure boxafe configuration
   file: path="{{ USERHOME }}/.boxafe.rb" src="{{ boxafe_config }}" state=link
 - name: Mount boxafe

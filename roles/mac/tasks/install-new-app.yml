@@ -1,9 +1,9 @@
 ---
 - name: Copy $app_name
-  copy: src="{{ INSTALLATION_SOURCE }}/{{ app_name }} {{ app_version }}.{{ archive_type }}" dest="{{ DOWNLOADS }}/{{ app_name }}.{{ archive_type }}" owner={{ USERNAME }}
+  copy: src="{{ INSTALLATION_SOURCE }}/{{ app_name }} {{ app_version }}.{{ archive_type }}" dest="{{ DOWNLOADS }}/{{ app_name }} {{ app_version }}.{{ archive_type }}" owner={{ USERNAME }}
 # Dmg
 - name: Mount $app_name image
-  command: hdiutil attach "{{ app_name }}.dmg" -mountpoint "/Volumes/{{ app_name }}" chdir="$DOWNLOADS"
+  command: hdiutil attach "{{ app_name }} {{ app_version }}.dmg" -mountpoint "/Volumes/{{ app_name }}" chdir="{{ DOWNLOADS }}"
   when: archive_type == 'dmg'
 - name: Copy $app_name app to /Applications
   command: cp -R "/Volumes/{{ app_name }}/{{ app_name }}.app" /Applications
@@ -13,7 +13,7 @@
   when: archive_type == 'dmg'
 # Zip
 - name: Unzip {{ app_name }}
-  command: unzip "{{ app_name }}.zip" "{{ app_name }}*" chdir="$DOWNLOADS"
+  command: unzip "{{ app_name }} {{ app_version }}.zip" "{{ app_name }}*" chdir="{{ DOWNLOADS }}"
   when: archive_type == 'zip'
 - name: Copy $app_name app to /Applications
   command: cp -R "{{ DOWNLOADS }}/{{ app_name }}.app" /Applications
@@ -23,7 +23,7 @@
   when: archive_type == 'zip'
 # Tbz
 - name: Extract {{ app_name }}
-  command: tar -xzf "{{ app_name }}.tbz" chdir="$DOWNLOADS"
+  command: tar -xzf "{{ app_name }} {{ app_version }}.tbz" chdir="{{ DOWNLOADS }}"
   when: archive_type == "tbz"
 - name: Copy $app_name app to /Applications
   command: cp -R "{{ DOWNLOADS }}/{{ app_name }}.app" /Applications

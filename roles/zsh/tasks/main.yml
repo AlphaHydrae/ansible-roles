@@ -1,7 +1,7 @@
 - name: Install ZSH
   macports: name=zsh state=installed
 - name: Check if ZSH is the default shell
-  lineinfile: line="Set shell to /opt/local/bin/zsh for user {{ USERNAME }}" dest="{{ INSTALLATION_TARGET }}/ansible.txt" state=present create=yes group=staff owner={{ USERNAME }} mode=0600
+  lineinfile: line="Set shell to /opt/local/bin/zsh for user {{ USERNAME }}" dest="{{ INSTALLATION_TARGET }}/ansible.txt" state=present create=yes group={{ USERGROUP }} owner={{ USERNAME }} mode=0600
   register: shell_configured
 - name: Set ZSH as the default shell
   command: su - root -c "chsh -s /opt/local/bin/zsh {{ USERNAME }}"

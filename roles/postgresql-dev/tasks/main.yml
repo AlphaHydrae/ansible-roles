@@ -21,4 +21,4 @@
   register: installed
   changed_when: installed.stdout.find('already installed') == -1
 - name: Create PostgreSQL user
-  postgresql_user: name=unknow password="" state=present
+  postgresql_user: name={{ USERNAME }} password="" state=present

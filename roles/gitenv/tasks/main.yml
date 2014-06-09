@@ -1,5 +1,5 @@
 - name: Install gitenv gem
-  command: su - {{ USERNAME }} -c "cd && source .rvm/scripts/rvm && gem install --no-rdoc --no-ri gitenv" creates="{{ USERHOME }}/.rvm/gems/ruby-{{ DEFAULT_RUBY }}/bin/gitenv"
+  command: su - {{ USERNAME }} -c "cd && source .rvm/scripts/rvm && gem install --no-rdoc --no-ri gitenv" creates="{{ USERHOME }}/.rvm/gems/ruby-{{ RUBY_VERSION }}/bin/gitenv"
 - name: Link gitenv configuration
   file: path="{{ USERHOME }}/.gitenv.rb" src="{{ gitenv_config }}" state=link
   notify: apply gitenv

@@ -1,0 +1,12 @@
+- name: Check if payload is installed
+  lineinfile: line="Copied {{ payload }} to {{ DOWNLOADS }}" dest="{{ INSTALLATION_TARGET }}/ansible.txt" state=present create=yes group=staff owner={{ USERNAME }} mode=0600
+  register: installed
+  tags: setup
+- name: Copy payload
+  copy: src="{{ INSTALLATION_SOURCE }}/{{ payload }}" dest="{{ DOWNLOADS }}/{{ payload }}" group=staff owner={{ USERNAME }}
+  when: installed|changed
+  tags: setup
+- name: Link payload
+  file: path="{{ USERHOME }}/Desktop/{{ payload }}" src="{{ DOWNLOADS }}/{{ payload }}" state=link
+  when: installed|changed
+  tags: setup

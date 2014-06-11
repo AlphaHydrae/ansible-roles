@@ -6,7 +6,7 @@
   apt: pkg=git-all state=latest
   when: PACKAGE_MANAGER == 'apt'
 - name: Install Git
-  macports: name=git-core state=installed
+  macports: name=git state=installed
   when: PACKAGE_MANAGER == 'macports'
 - name: Install Git extras
   macports: name=git-extras state=installed

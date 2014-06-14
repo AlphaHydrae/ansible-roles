@@ -34,3 +34,5 @@
 # Finalize
 - name: Set $app_name permissions
   file: path="/Applications/{{ app_name }}.app" owner={{ USERNAME }} state=directory recurse=yes
+- name: Save to installation manifest
+  lineinfile: line="Installed {{ app_name }} {{ app_version }} to /Applications/{{ app_name }}.app" dest="{{ INSTALLATION_TARGET }}/ansible.txt" state=present create=yes group={{ USERGROUP }} owner={{ USERNAME }} mode=0600

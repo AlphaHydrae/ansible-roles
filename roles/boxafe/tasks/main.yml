@@ -1,16 +1,16 @@
 # Patched EncFS
-- name: Install EncFS dependencies
-  macports: name={{ item }} state=installed
-  with_items:
-    - autoconf
-    - automake
-    - libtool
-- name: Make Portfiles directory
-  file: path="/opt/ports/fuse/encfs" state=directory
-- name: Install EncFS patched Portfile
-  copy: src=Portfile.encfs dest="/opt/ports/fuse/encfs/Portfile"
-  notify:
-    - index ports
+#- name: Install EncFS dependencies
+#  macports: name={{ item }} state=installed
+#  with_items:
+#    - autoconf
+#    - automake
+#    - libtool
+#- name: Make Portfiles directory
+#  file: path="/opt/ports/fuse/encfs" state=directory
+#- name: Install EncFS patched Portfile
+#  copy: src=Portfile.encfs dest="/opt/ports/fuse/encfs/Portfile"
+#  notify:
+#    - index ports
 - name: Install EncFS
   macports: name=encfs state=installed
 # Boxafe
@@ -31,9 +31,31 @@
 - name: Ensure boxafe configuration
   file: path="{{ USERHOME }}/.boxafe.rb" src="{{ boxafe_config }}" state=link
 - name: Mount boxafe
-  command: su - {{ USERNAME }} -c "cd && export PATH=/opt/local/bin:$PATH && source .rvm/scripts/rvm && boxafe mount" creates=/Volumes/{{ BOXAFE_NAME }}
+  command: su - {{ USERNAME }} -c "cd && export PATH=/opt/local/bin:$PATH && source .rvm/scripts/rvm && rvm use {{ RUBY_VERSION }} && boxafe mount" creates=/Volumes/{{ BOXAFE_NAME }}
 - name: Link Safebox
   file: path="{{ USERHOME }}/Safebox" src="/Volumes/Safebox" state=link
   notify: apply gitenv
 - name: Mount boxafe on startup
   command: su - {{ USERNAME }} -c "cd && source .rvm/scripts/rvm && boxafe start" creates="{{ USERHOME }}/Library/LaunchAgents/com.alphahydrae.boxafe.plist"
+- name: Link environment directory
+  file: path="{{ USERHOME }}/.env.d" src="{{ USERHOME }}/Safebox/Config/.env.d" state=link
+- name: Link Archives directory
+  file: path="{{ USERHOME }}/Archives" src="{{ USERHOME }}/Safebox/Archives" state=link
+- name: Check whether Music directory is linked
+  shell: test -L "{{ USERHOME }}/Music" && echo 'yes' || echo 'no'
+  register: music_link
+  changed_when: music_link.stdout.find('yes') == -1
+- name: Archive Music directory
+  command: mv "{{ USERHOME }}/Music" "{{ INSTALLATION_TARGET }}/Original Music" creates="{{ INSTALLATION_TARGET }}/Original Music"
+  when: music_link|changed
+- name: Link Music directory
+  file: path="{{ USERHOME }}/Music" src="{{ USERHOME }}/Dropbox/Music" state=link
+- name: Check whether Pictures directory is linked
+  shell: test -L "{{ USERHOME }}/Pictures" && echo 'yes' || echo 'no'
+  register: pictures_link
+  changed_when: pictures_link.stdout.find('yes') == -1
+- name: Archive Pictures directory
+  command: mv "{{ USERHOME }}/Pictures" "{{ INSTALLATION_TARGET }}/Original Pictures" creates="{{ INSTALLATION_TARGET }}/Original Pictures"
+  when: pictures_link|changed
+- name: Link Pictures directory
+  file: path="{{ USERHOME }}/Pictures" src="{{ USERHOME }}/Dropbox/Pictures" state=link

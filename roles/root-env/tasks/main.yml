@@ -1,0 +1,2 @@
+- name: Set up root .profile
+  template: src=".profile.j2" dest="/var/root/.profile"

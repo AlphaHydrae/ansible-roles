@@ -4,6 +4,7 @@
   macports: name={{ item }} state=installed
   with_items:
     - curl
+    - httpie
     - gnupg
     - go # required for direnv
     - py27-pip

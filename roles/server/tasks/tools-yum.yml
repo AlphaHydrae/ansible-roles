@@ -1,6 +1,6 @@
 ---
 - name: yum install tools
-  yum: pkg=${item} state=latest
+  yum: pkg={{ item }} state=latest
   with_items:
     - curl
     - gcc

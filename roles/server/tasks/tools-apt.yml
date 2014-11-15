@@ -1,6 +1,7 @@
 ---
 - name: apt-get install tools
-  apt: pkg=${item} state=latest
+  apt: pkg={{ item }} state=latest
+  sudo: yes
   with_items:
     - build-essential
     - curl

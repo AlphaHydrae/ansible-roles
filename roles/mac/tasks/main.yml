@@ -24,7 +24,7 @@
 # Applications to be installed manually
 - include: link-archive.yml archive="Boot2Docker 1.3.1.pkg"
 - include: link-archive.yml archive="GrowlNotify 2.1.zip"
-- include: link-archive.yml archive="MacTeX 2013.pkg"
+- include: link-archive.yml archive="MacTeX 2014.pkg"
 - include: link-archive.yml archive="Steam.dmg"
 - include: link-archive.yml archive="USB-Overdrive 3.1.dmg"
 - include: link-archive.yml archive="Vagrant 1.6.5.dmg"

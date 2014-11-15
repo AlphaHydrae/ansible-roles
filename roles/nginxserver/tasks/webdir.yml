@@ -4,7 +4,7 @@
   tags:
     - nginx
 - name: mkdir /web/sites
-  action: file path=/web/sites group=${hostname}-web mode=0751 state=directory
+  action: file path=/web/sites group={{ hostname }}-web mode=0751 state=directory
   tags:
     - nginx
 - name: copy /web/nginx.conf

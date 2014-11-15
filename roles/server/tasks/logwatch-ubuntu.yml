@@ -1,6 +1,6 @@
 ---
 - name: apt-get install logwatch with fortune mods
-  apt: pkg=${item} state=latest
+  apt: pkg={{ item }} state=latest
   with_items:
     - logwatch
     - fortunes

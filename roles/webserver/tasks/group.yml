@@ -1,5 +1,5 @@
 ---
-- name: groupadd ${HOSTNAME}-web
-  group: name=${HOSTNAME}-web state=present
+- name: groupadd {{ HOSTNAME }}-web
+  group: name={{ HOSTNAME }}-web state=present
   tags:
     - web

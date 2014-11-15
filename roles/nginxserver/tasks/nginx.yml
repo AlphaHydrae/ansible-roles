@@ -5,8 +5,8 @@
     - restart nginx
   tags:
     - nginx
-- name: add nginx user to ${HOSTNAME}-web group
-  action: user name=nginx append=yes groups=${HOSTNAME}-web
+- name: add nginx user to {{ HOSTNAME }}-web group
+  action: user name=nginx append=yes groups={{ HOSTNAME }}-web
   tags:
     - nginx
 - name: template /etc/nginx/nginx.conf

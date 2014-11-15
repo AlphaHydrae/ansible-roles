@@ -1,6 +1,6 @@
 ---
 - name: yum install logwatch with fortune mods
-  action: yum pkg=${item} state=latest
+  action: yum pkg={{ item }} state=latest
   with_items:
     - logwatch
     - fortune-mod

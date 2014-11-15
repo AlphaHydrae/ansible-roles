@@ -1,4 +1,4 @@
-- name: firewalld add ${TYPE} ${ACTION}
-  action: script roles/firewall/scripts/firewalld.add.sh ${TYPE} ${ACTION}
+- name: firewalld add {{ TYPE }} {{ ACTION }}
+  action: script roles/firewall/scripts/firewalld.add.sh {{ TYPE }} {{ ACTION }}
   tags:
     - firewall

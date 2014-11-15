@@ -16,7 +16,7 @@
 ##
 ## Start Monit in the background (run as a daemon):
 #
-set daemon ${MONIT_INTERVAL}              # check services at 1-minute intervals
+set daemon {{ MONIT_INTERVAL }}              # check services at 1-minute intervals
 #   with start delay 240    # optional: delay the first check by 4-minutes (by 
 #                           # default Monit check immediately after Monit start)
 #
@@ -75,7 +75,7 @@ set eventqueue
 #
 # set mmonit http://monit:monit@192.168.1.10:8080/collector
 {% if MONIT_MMONIT %}
-set mmonit ${MONIT_MMONIT}
+set mmonit {{ MONIT_MMONIT }}
 {% endif %}
 #     # and register without credentials     # Don't register credentials
 #
@@ -117,15 +117,15 @@ set mmonit ${MONIT_MMONIT}
 ## services monitored and manage services from a web interface. See the
 ## Monit Wiki if you want to enable SSL for the web server. 
 #
-set httpd port ${MONIT_PORT} and
+set httpd port {{ MONIT_PORT }} and
 
     ssl enable
-    pemfile /web/certificates/${MONIT_DOMAIN}/server.pem
+    pemfile /web/certificates/{{ MONIT_DOMAIN }}/server.pem
 
-    allow admin:${MONIT_ADMIN_PASSWORD}      # require user 'admin' with password 'monit'
+    allow admin:{{ MONIT_ADMIN_PASSWORD }}      # require user 'admin' with password 'monit'
 
     {% if MONIT_RO_USER %}
-    allow ${MONIT_RO_USER}:${MONIT_RO_PASSWORD} readonly
+    allow {{ MONIT_RO_USER }}:{{ MONIT_RO_PASSWORD }} readonly
     {% endif %}
 
     signature disable

@@ -5,6 +5,6 @@
   tags:
     - package
 - include: system.yml
-- include: tools-${OS_FAMILY}.yml
+- include: tools-{{ PACKAGE_MANAGER }}.yml
 - include: ssh.yml
-- include: logwatch-${OS_FAMILY}.yml
+- include: logwatch-{{ OS_FAMILY }}.yml

@@ -11,7 +11,7 @@
 - name: Create PostgreSQL cluster directory
   file: path=/opt/local/var/db/{{ POSTGRESQL_PORT }}/defaultdb group=postgres owner=postgres mode=0700 state=directory
 - name: Initialize PostgreSQL cluster
-  command: su -l postgres -c '/opt/local/lib/{{ POSTGRESQL_PORT }}/bin/initdb -D /opt/local/var/db/{{ POSTGRESQL_PORT }}/defaultdb -E UTF8 --locale=en_US.UTF8' creates=/opt/local/var/db/{{ POSTGRESQL_PORT }}/defaultdb/pg_hba.conf
+  command: su -l postgres -c '/opt/local/lib/{{ POSTGRESQL_PORT }}/bin/initdb -D /opt/local/var/db/{{ POSTGRESQL_PORT }}/defaultdb -E UTF8 --locale=en_US.UTF-8' creates=/opt/local/var/db/{{ POSTGRESQL_PORT }}/defaultdb/pg_hba.conf
 - name: Load PostgreSQL port
   script: common/port-load.sh {{ POSTGRESQL_PORT }}-server
   register: loaded

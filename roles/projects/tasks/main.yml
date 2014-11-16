@@ -8,6 +8,7 @@
 - include: clone-project.yml project_owner=AlphaHydrae project_name=cside-erp
 - include: clone-project.yml project_owner=AlphaHydrae project_name=doa
 - include: clone-project.yml project_owner=AlphaHydrae project_name=docco-central
+- include: clone-project.yml project_owner=AlphaHydrae project_name=errapi
 - include: clone-project.yml project_owner=AlphaHydrae project_name=filtrum
 - include: clone-project.yml project_owner=AlphaHydrae project_name=gitenv
 - include: clone-project.yml project_owner=AlphaHydrae project_name=inimit

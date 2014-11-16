@@ -1,7 +1,17 @@
+- name: Check whether environment directory already exists
+  shell: test -L "{{ USERHOME }}/.env.d" && echo 'yes' || echo 'no'
+  register: environment_directory_link
+  changed_when: environment_directory_link.stdout.find('yes') == -1
 - name: Link environment directory
-  file: path="{{ USERHOME }}/.env.d" src="{{ USERHOME }}/Safebox/Config/.env.d" state=link
+  command: su - {{ USERNAME }} -c "cd && ln -s {{ USERHOME }}/Safebox/Config/.env.d {{ USERHOME }}/.env.d"
+  when: environment_directory_link|changed
+- name: Check whether Archives directory already exists
+  shell: test -L "{{ USERHOME }}/Archives" && echo 'yes' || echo 'no'
+  register: archives_directory_link
+  changed_when: archives_directory_link.stdout.find('yes') == -1
 - name: Link Archives directory
-  file: path="{{ USERHOME }}/Archives" src="{{ USERHOME }}/Safebox/Archives" state=link
+  command: su - {{ USERNAME }} -c "cd && ln -s {{ USERHOME }}/Safebox/Archives {{ USERHOME }}/Archives"
+  when: archives_directory_link|changed
 - name: Link Desktop to Dropbox
   file: path="{{ USERHOME }}/Dropbox/Desktop/{{ HUMAN_NAME }}" src="{{ USERHOME }}/Desktop" state=link
 - name: Check whether Music directory is linked
@@ -26,5 +36,10 @@
   file: path="{{ USERHOME }}/Library/Application Support/Adium 2.0" src="{{ USERHOME }}/Dropbox/Shared/Library/Application Support/Adium 2.0" state=link
 - name: Make Applications directory
   file: path="{{ USERHOME }}/Applications" group={{ USERGROUP }} owner={{ USERNAME }} state=directory
+- name: Check whether IM application already exists
+  shell: test -e "{{ USERHOME }}/Applications/IM.app" && echo 'yes' || echo 'no'
+  register: im_app_link
+  changed_when: im_app_link.stdout.find('yes') == -1
 - name: Link IM application
-  file: path="{{ USERHOME }}/Applications/IM.app" src="{{ USERHOME }}/Safebox/Automator/IM.app" state=link
+  command: su - {{ USERNAME }} -c "cd && cp -R {{ USERHOME }}/Safebox/Automator/IM.app {{ USERHOME }}/Applications"
+  when: im_app_link|changed

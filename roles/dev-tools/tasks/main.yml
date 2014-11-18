@@ -29,7 +29,7 @@
 - name: Make /opt/bin directory
   file: path=/opt/bin state=directory
 - name: Install ack
-  get_url: url=http://beyondgrep.com/ack-2.12-single-file dest=/opt/bin/ack mode=0755
+  get_url: url=http://beyondgrep.com/ack-2.14-single-file dest=/opt/bin/ack mode=0755
 - name: Clone direnv
   git: repo=https://github.com/zimbatm/direnv.git dest=/opt/direnv executable=/opt/local/bin/git
   notify:

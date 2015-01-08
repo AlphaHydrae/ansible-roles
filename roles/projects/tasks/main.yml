@@ -8,6 +8,7 @@
 - include: clone-project.yml project_owner=AlphaHydrae project_name=cside-erp
 - include: clone-project.yml project_owner=AlphaHydrae project_name=doa
 - include: clone-project.yml project_owner=AlphaHydrae project_name=docco-central
+- include: clone-project.yml project_owner=AlphaHydrae project_name=docker-ruby-node-pg
 - include: clone-project.yml project_owner=AlphaHydrae project_name=errapi
 - include: clone-project.yml project_owner=AlphaHydrae project_name=filtrum
 - include: clone-project.yml project_owner=AlphaHydrae project_name=gitenv
@@ -19,6 +20,7 @@
 - include: clone-project.yml project_owner=AlphaHydrae project_name=multi_scheduler
 - include: clone-project.yml project_owner=AlphaHydrae project_name=notifies
 - include: clone-project.yml project_owner=AlphaHydrae project_name=rake-version
+- include: clone-project.yml project_owner=lotaris project_name=rox-center
 - include: clone-project.yml project_owner=AlphaHydrae project_name=scide
 - include: clone-project.yml project_owner=AlphaHydrae project_name=tableling
 - include: clone-project.yml project_owner=AlphaHydrae project_name=tableling-rails
@@ -40,3 +42,10 @@
 - include: clone-project.yml project_owner=AlphaHydrae project_name=shields.io project_upstream=badges/shields
 - include: clone-project.yml project_owner=AlphaHydrae project_name=underscore project_upstream=jashkenas/underscore
 - include: clone-project.yml project_owner=AlphaHydrae project_name=whenever project_upstream=javan/whenever
+# Links
+- name: Link local folders
+  file: src="{{ USERHOME }}/Safebox/Projects/{{ item }}" path="{{ USERHOME }}/Projects/{{ item }}/local" state=link force=yes
+  with_items:
+    - cside-erp
+    - lair
+    - rox-center

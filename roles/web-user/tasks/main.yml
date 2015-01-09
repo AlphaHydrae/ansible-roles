@@ -1,0 +1,7 @@
+---
+- name: useradd {{ WEBUSER_NAME }}
+  user: name=lair generate_ssh_key=yes ssh_key_bits=8192
+- name: mkdir /web/sites/{{ WEBUSER_NAME }}
+  file: path=/web/sites/{{ WEBUSER_NAME }} group={{ HOSTNAME }}-web owner={{ WEBUSER_NAME }} mode=0750 state=directory
+- name: symlink /home/{{ WEBUSER_NAME }}/web
+  file: path=/home/{{ WEBUSER_NAME }}/web src=/web/sites/{{ WEBUSER_NAME }} state=link

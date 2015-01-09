@@ -2,8 +2,6 @@
 - name: apt-get update
   apt: update-cache=yes
   when: PACKAGE_MANAGER == 'apt'
-  tags:
-    - package
 - include: system.yml
 - include: tools-{{ PACKAGE_MANAGER }}.yml
 - include: ssh.yml

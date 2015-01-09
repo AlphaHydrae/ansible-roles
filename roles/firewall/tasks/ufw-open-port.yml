@@ -1,5 +1,3 @@
 ---
 - name: ufw allow {{ PORT }}
   script: roles/firewall/scripts/ufw-open-port.sh {{ PORT }}
-  tags:
-    - firewall

@@ -7,6 +7,8 @@
     - httpie
     - gnupg
     - go # required for direnv
+    - libxml2 # required for nokogiri
+    - libxslt # required for nokogiri
     - py27-pip
     - rsync
     - ruby19

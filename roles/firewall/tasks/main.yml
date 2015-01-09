@@ -1,6 +1,6 @@
 ---
 - include: "{{ FIREWALL }}.yml"
-- include: firewalld.add.yml type=service action=ssh
+- firewalld: service=ssh permanent=true state=enabled
   when: FIREWALL == 'firewalld'
 - include: ufw-open-port.yml PORT=22
   when: FIREWALL == 'ufw'

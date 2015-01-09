@@ -5,5 +5,3 @@
     - logwatch
     - fortune-mod
     - fortune-firefly
-  tags:
-    - logwatch

@@ -1,9 +1,5 @@
 ---
 - name: apt-get install ufw
   apt: pkg=ufw state=latest
-  tags:
-    - firewall
 - name: ufw enable
   script: roles/firewall/scripts/ufw-enable.sh
-  tags:
-    - firewall

@@ -2,6 +2,14 @@
 - name: configure selinux to allow nginx access to configuration files in /web
   script: roles/nginx-server/scripts/selinux.chcon.sh {{ item }} httpd_config_t
   with_items:
+    - /web/certificates
     - /web/conf.d
+    - /web/nginx.conf
+  register: selinux_context_changed
+  changed_when: "selinux_context_changed.rc != 0"
+- name: configure selinux to allow nginx access to web files in /web/sites
+  script: roles/nginx-server/scripts/selinux.chcon.sh {{ item }} httpd_sys_content_t
+  with_items:
+    - /web/sites
   register: selinux_context_changed
   changed_when: "selinux_context_changed.rc != 0"

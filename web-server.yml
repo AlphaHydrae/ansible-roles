@@ -1,0 +1,21 @@
+---
+- hosts: web-server
+  vars:
+    FIREWALL: firewalld
+    WEB_NGINX_WORKERS: 5
+    WEB_NGINX_WORKER_CONNECTIONS: 1024
+  user: root
+  connection: ssh
+  roles:
+    - { role: firewall, tags: [ firewall ] }
+    - { role: server, tags: [ system ] }
+    - { role: mail-server, tags: [ mail ] }
+    - { role: postgresql-server, tags: [ db ] }
+    - { role: web-server, tags: [ web ] }
+    - { role: nginx-server, tags: [ nginx ] }
+    - git-stack
+    - gitserver
+    - node-stack
+  tasks:
+    #- include: roles/firewall/tasks/firewalld.add.yml type=service action=https
+    - include: common/authorized_keys.yml user=git

@@ -1,2 +1,19 @@
-- name: Install RVM for the main user
-  command: su -l {{ USERNAME }} -c 'cd && curl -sSL https://get.rvm.io | bash -s stable' creates={{ USERHOME }}/.rvm
+- name: Import RVM signing key
+  script: roles/gnupg/scripts/import-gpg-key.sh {{ RVMSTACK_SIGNING_KEY | default("409B6B1796C275462A1703113804BB82D39DC0E3") }}
+  sudo: yes
+  sudo_user: "{{ RVMSTACK_USER }}"
+  register: command_result
+  changed_when: "'already imported' not in command_result.stdout"
+- name: Install RVM requirements
+  command: /home/{{ RVMSTACK_USER }}/.rvm/bin/rvm requirements
+  register: command_result
+  changed_when: "'Installing' in command_result.stdout"
+- name: Install RVM for RVMSTACK_USER
+  command: su - {{ RVMSTACK_USER }} -c 'cd && curl -sSL https://get.rvm.io | bash -s stable' creates={{ USER_HOMES | default("/home") }}/{{ RVMSTACK_USER }}/.rvm
+- name: Install ruby version RVMSTACK_RUBY_VERSION
+  command: su - {{ RVMSTACK_USER }} -c 'cd && rvm install {{ RVMSTACK_RUBY_VERSION }}' creates={{ USER_HOMES | default("/home") }}/{{ RVMSTACK_USER }}/.rvm/rubies/{{ RVMSTACK_RUBY_VERSION }}
+  when: RVMSTACK_RUBY_VERSION is defined
+- name: Set default ruby version
+  command: su - {{ RVMSTACK_USER }} -c "rvm list|grep -v '#'|grep '*'|cut -d ' ' -f 2|grep {{ RVMSTACK_RUBY_VERSION }} &>/dev/null && echo {{ RVMSTACK_RUBY_VERSION }} is already the default || rvm use --default {{ RVMSTACK_RUBY_VERSION }}"
+  register: command_result
+  changed_when: "'already the default' not in command_result.stdout"

@@ -1,3 +1,8 @@
 ---
 - include: postgresql.yml
+  when: POSTGRESQL_DATABASE is not defined
 - include: postgresql.conf.yml
+  when: POSTGRESQL_DATABASE is not defined
+- include: postgresql.database.yml
+  when: POSTGRESQL_DATABASE is defined
+- include: postgresql.apply.yml

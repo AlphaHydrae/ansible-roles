@@ -1,0 +1,22 @@
+---
+- name: create database user
+  postgresql_user: name={{ DATABASE_USER }}
+- name: create database
+  postgresql_db: name={{ DATABASE_NAME }} owner={{ DATABASE_USER }}
+  when: DATABASE_NAME != 'all'
+- name: configure database peer access
+  lineinfile: dest=/var/lib/pgsql/data/pg_hba.conf regexp="^ *local *{{ DATABASE_NAME }}" line="  local   {{ DATABASE_NAME }}   {{ DATABASE_USER }}   peer"
+  when: PEER_MAP.name is not defined
+  notify:
+    - restart postgresql
+- name: configure database peer access with custom map
+  lineinfile: dest=/var/lib/pgsql/data/pg_hba.conf regexp="^ *local *{{ DATABASE_NAME }}" line="  local   {{ DATABASE_NAME }}   {{ DATABASE_USER }}   peer   map={{ PEER_MAP.name }}"
+  when: PEER_MAP.name is defined
+  notify:
+    - restart postgresql
+- name: configure peer map
+  lineinfile: dest=/var/lib/pgsql/data/pg_ident.conf regexp="^ *{{ PEER_MAP.name }} *{{ item.key }} *{{ item.value }}" line="  {{ PEER_MAP.name }}   {{ item.key }}   {{ item.value }}"
+  when: PEER_MAP.mappings is defined
+  with_dict: PEER_MAP.mappings
+  notify:
+    - restart postgresql

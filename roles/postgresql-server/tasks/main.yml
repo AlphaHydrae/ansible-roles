@@ -1,8 +1,14 @@
 ---
-- include: postgresql.yml
-  when: POSTGRESQL_DATABASE is not defined
-- include: postgresql.conf.yml
-  when: POSTGRESQL_DATABASE is not defined
-- include: postgresql.database.yml
-  when: POSTGRESQL_DATABASE is defined
-- include: postgresql.apply.yml
+- name: install postgresql
+  yum: pkg={{ item }} state=latest
+  with_items:
+    - postgresql
+    - postgresql-devel
+    - postgresql-server
+    - postgresql-contrib
+- name: mkdir /var/lib/pgsql/data
+  file: path=/var/lib/pgsql/data group=postgres owner=postgres mode=0700 state=directory
+- name: initialize postgresql cluster
+  command: /bin/su - postgres -c 'initdb -D /var/lib/pgsql/data -E UTF8 --locale=en_US.UTF8' creates=/var/lib/pgsql/data/pg_hba.conf
+- name: start postgresql
+  service: name=postgresql enabled=yes state=started

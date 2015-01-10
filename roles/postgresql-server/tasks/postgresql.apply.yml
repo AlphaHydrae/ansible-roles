@@ -1,9 +1,0 @@
----
-- name: assemble pg_hba.conf
-  assemble: src=/var/lib/pgsql/data/ansible/pg_hba dest=/var/lib/pgsql/data/pg_hba.conf group=postgres owner=postgres mode=0600
-  notify:
-    - restart postgresql
-- name: assemble pg_ident.conf
-  assemble: src=/var/lib/pgsql/data/ansible/pg_ident dest=/var/lib/pgsql/data/pg_ident.conf group=postgres owner=postgres mode=0600
-  notify:
-    - restart postgresql

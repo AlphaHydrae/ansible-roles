@@ -1,0 +1,3 @@
+---
+dependencies:
+  - { role: postgresql-peer-db, DATABASE_NAME: all, DATABASE_USER: postgres, PEER_MAP: { name: "{{ HOSTNAME }}-system", mappings: { root: postgres, postgres: postgres } }, tags: [ test ] }

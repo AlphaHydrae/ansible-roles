@@ -1,3 +1,0 @@
----
-- name: template pg_hba database
-  template: src=pg_hba_database.conf.j2 dest=/var/lib/pgsql/data/ansible/pg_hba/lair group=postgres owner=postgres mode=0700

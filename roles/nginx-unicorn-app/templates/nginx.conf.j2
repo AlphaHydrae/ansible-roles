@@ -1,0 +1,47 @@
+upstream {{ NGINX_UNICORN_APP_NAME }}_unicorn_cluster {
+  server unix:{{ NGINX_UNICORN_APP_SOCKET }};
+}
+
+server {
+
+  #include /web/commons/nginx/ssl.default;
+
+  server_name{% for server_name in NGINX_UNICORN_APP_SERVER_NAMES %} {{ server_name }}{% endfor %};
+  root {{ NGINX_UNICORN_APP_PATH }}/public;
+
+  location / {
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto https;
+    proxy_set_header Host $http_host;
+    proxy_redirect off;
+
+    # Set maintenance mode if maintenance directory exists...
+    if (-d $document_root/maintenance) {
+      set $maintenance 1;
+    }
+    # but serve everything under the public maintenance directory.
+    if ($uri ~ ^/maintenance/) {
+      set $maintenance 0;
+    }
+    # If maintenance mode is set, serve the maintenance page.
+    if ($maintenance) {
+      rewrite (.*) /maintenance/maintenance.html last;
+    }
+
+    # Serve cached index if it exists.
+    if (-f cache/$request_filename/index.html) {
+      rewrite (.*) $1/index.html break;
+    }
+    # Serve cached page if it exists.
+    if (-f cache/$request_filename.html) {
+      rewrite (.*) $1.html break;
+    }
+
+    # Pass request to unicorn.
+    if (!-f $request_filename) {
+      proxy_pass http://{{ NGINX_UNICORN_APP_NAME }}_unicorn_cluster;
+      break;
+    }
+  }
+}

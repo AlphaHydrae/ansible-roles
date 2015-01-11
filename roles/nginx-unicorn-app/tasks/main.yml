@@ -1,0 +1,3 @@
+---
+- name: configure nginx to proxy to unicorn cluster
+  template: src=nginx.conf.j2 dest=/web/conf.d/{{ NGINX_UNICORN_APP_NAME }}.conf group={{ HOSTNAME }}-web owner=root

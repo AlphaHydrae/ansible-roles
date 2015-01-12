@@ -1,0 +1,3 @@
+---
+- name: generate wrapper
+  command: su - {{ user }} -c 'cd && rvm wrapper {{ ruby_version }} {{ prefix | default(user) }} {{ binary }}' creates={{ USER_HOMES | default("/home") }}/{{ user }}/.rvm/bin/{{ prefix | default(user) }}_{{ binary }}

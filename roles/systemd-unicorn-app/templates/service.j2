@@ -1,0 +1,11 @@
+[Unit]
+Description={{ app_name }} unicorn application server for user {{ app_user }}
+After=postgresql.target
+
+[Service]
+Type=forking
+User={{ app_user }}
+ExecStart={{ app_command }}
+
+[Install]
+WantedBy=multi-user.target

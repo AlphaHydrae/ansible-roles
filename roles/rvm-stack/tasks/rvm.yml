@@ -4,12 +4,12 @@
   sudo_user: "{{ RVMSTACK_USER }}"
   register: command_result
   changed_when: "'already imported' not in command_result.stdout"
+- name: Install RVM for RVMSTACK_USER
+  command: su - {{ RVMSTACK_USER }} -c 'cd && curl -sSL https://get.rvm.io | bash -s stable' creates={{ USER_HOMES | default("/home") }}/{{ RVMSTACK_USER }}/.rvm
 - name: Install RVM requirements
   command: /home/{{ RVMSTACK_USER }}/.rvm/bin/rvm requirements
   register: command_result
   changed_when: "'Installing' in command_result.stdout"
-- name: Install RVM for RVMSTACK_USER
-  command: su - {{ RVMSTACK_USER }} -c 'cd && curl -sSL https://get.rvm.io | bash -s stable' creates={{ USER_HOMES | default("/home") }}/{{ RVMSTACK_USER }}/.rvm
 - name: Install ruby version RVMSTACK_RUBY_VERSION
   command: su - {{ RVMSTACK_USER }} -c 'cd && rvm install {{ RVMSTACK_RUBY_VERSION }}' creates={{ USER_HOMES | default("/home") }}/{{ RVMSTACK_USER }}/.rvm/rubies/{{ RVMSTACK_RUBY_VERSION }}
   when: RVMSTACK_RUBY_VERSION is defined

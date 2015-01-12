@@ -1,3 +1,0 @@
----
-- name: groupadd {{ HOSTNAME }}-web
-  group: name={{ HOSTNAME }}-web state=present

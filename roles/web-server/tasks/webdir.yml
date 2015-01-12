@@ -1,5 +1,0 @@
----
-- name: mkdir /web
-  file: path=/web group={{ HOSTNAME }}-web mode=0751 state=directory
-- name: mkdir /web/certificates
-  file: path=/web/certificates group=root owner=root mode=0700 state=directory

@@ -1,3 +1,9 @@
 ---
 - name: configure nginx to proxy to unicorn cluster
-  template: src=nginx.conf.j2 dest=/web/conf.d/{{ NGINX_UNICORN_APP_NAME }}.conf group={{ HOSTNAME }}-web owner=root
+  template: src=nginx.conf.j2 dest=/web/conf.d/{{ NGINX_UNICORN_APP.name }}.conf group={{ HOSTNAME }}-web owner=root
+  notify:
+    - restart nginx
+- name: add app to nginx configuration
+  lineinfile: dest=/web/nginx.conf regexp="{{ NGINX_UNICORN_APP.name }}" line="include /web/conf.d/{{ NGINX_UNICORN_APP.name }}.conf;"
+  notify:
+    - restart nginx

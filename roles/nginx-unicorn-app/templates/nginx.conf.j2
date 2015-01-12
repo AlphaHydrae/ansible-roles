@@ -1,13 +1,14 @@
-upstream {{ NGINX_UNICORN_APP_NAME }}_unicorn_cluster {
-  server unix:{{ NGINX_UNICORN_APP_SOCKET }};
+upstream {{ NGINX_UNICORN_APP.name }}_unicorn_cluster {
+  server unix:{{ NGINX_UNICORN_APP.socket }};
 }
 
 server {
 
+  listen 80;
   #include /web/commons/nginx/ssl.default;
 
-  server_name{% for server_name in NGINX_UNICORN_APP_SERVER_NAMES %} {{ server_name }}{% endfor %};
-  root {{ NGINX_UNICORN_APP_PATH }}/public;
+  server_name{% for server_name in NGINX_UNICORN_APP.server_names %} {{ server_name }}{% endfor %};
+  root {{ NGINX_UNICORN_APP.path }}/public;
 
   location / {
     proxy_set_header X-Real-IP $remote_addr;
@@ -40,7 +41,7 @@ server {
 
     # Pass request to unicorn.
     if (!-f $request_filename) {
-      proxy_pass http://{{ NGINX_UNICORN_APP_NAME }}_unicorn_cluster;
+      proxy_pass http://{{ NGINX_UNICORN_APP.name }}_unicorn_cluster;
       break;
     }
   }

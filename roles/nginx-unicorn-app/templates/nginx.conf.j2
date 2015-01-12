@@ -3,9 +3,15 @@ upstream {{ NGINX_UNICORN_APP.name }}_unicorn_cluster {
 }
 
 server {
-
   listen 80;
-  #include /web/commons/nginx/ssl.default;
+  server_name {% for server_name in NGINX_UNICORN_APP.server_names %} {{ server_name }}{% endfor %};
+  return 302 https://$server_name$request_uri;
+}
+
+server {
+  listen 443; ssl on;
+  ssl_certificate /web/certificates/{{ NGINX_UNICORN_APP.domain }}/server.crt;
+  ssl_certificate_key /web/certificates/{{ NGINX_UNICORN_APP.domain }}/server.key;
 
   server_name{% for server_name in NGINX_UNICORN_APP.server_names %} {{ server_name }}{% endfor %};
   root {{ NGINX_UNICORN_APP.path }}/public;

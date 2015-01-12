@@ -1,3 +1,4 @@
+# FIXME: use ansible's setype option of file modules
 
 FILE="$1"
 TYPE="$2"

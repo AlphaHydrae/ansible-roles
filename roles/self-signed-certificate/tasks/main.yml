@@ -1,0 +1,11 @@
+---
+- name: mkdir path
+  file: path={{ certificate_path }} mode=0700 state=directory
+- name: generate private key
+  command: openssl genrsa -out server.key 1024 chdir={{ certificate_path }} creates={{ certificate_path }}/server.key
+- name: prepare signing request configuration file
+  template: src=config.j2 dest={{ certificate_path }}/server.txt
+- name: generate certificate signing request
+  command: openssl req -new -key server.key -out server.csr -config server.txt chdir={{ certificate_path }} creates={{ certificate_path }}/server.csr
+- name: generate self-signed certificate
+  command: openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt chdir={{ certificate_path }} creates={{ certificate_path }}/server.crt

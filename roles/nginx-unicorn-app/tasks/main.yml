@@ -1,6 +1,6 @@
 ---
 - name: configure nginx to proxy to unicorn cluster
-  template: src=nginx.conf.j2 dest=/web/conf.d/{{ NGINX_UNICORN_APP.name }}.conf group={{ HOSTNAME }}-web owner=root
+  template: src=nginx.conf.j2 dest=/web/conf.d/{{ NGINX_UNICORN_APP.name }}.conf group={{ HOSTNAME }}-web owner=root setype=httpd_config_t
   notify:
     - restart nginx
 - name: add app to nginx configuration

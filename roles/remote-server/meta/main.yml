@@ -2,4 +2,4 @@
 dependencies:
   - { role: logwatch }
   - { role: remote-firewall }
-  - { role: ssh-key-public-auth }
+  - { role: ssh-public-key-auth }

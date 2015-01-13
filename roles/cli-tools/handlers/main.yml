@@ -1,0 +1,2 @@
+- name: install direnv
+  command: su - root -c 'cd /opt/direnv && PATH=/opt/local/bin:$PATH && make install' chdir=/opt/direnv

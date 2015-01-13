@@ -1,7 +1,0 @@
----
-- name: mkdir /web/conf.d
-  file: path=/web/conf.d state=directory
-- name: mkdir /web/sites
-  file: path=/web/sites group={{ HOSTNAME }}-web mode=0751 state=directory
-- name: copy /web/nginx.conf
-  copy: src=nginx.web.conf dest=/web/nginx.conf group={{ HOSTNAME }}-web mode=0640 force=no

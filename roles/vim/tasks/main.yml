@@ -1,12 +1,11 @@
-- name: Install ruby 1.9 port
+- name: yum install vim
+  yum: pkg=vim state=latest
+  when: PACKAGE_MANAGER == 'yum'
+- name: port install ruby19
   macports: name=ruby19 state=installed
-- name: Install vim with ruby support
+  when: PACKAGE_MANAGER == 'macports'
+- name: port install vim +ruby19
   script: common/port-install.sh vim +ruby19
   register: installed
   changed_when: installed.stdout.find('already installed') == -1
-- name: Install vim-epidemic gem
-  command: su - {{ USERNAME }} -c "cd && source .rvm/scripts/rvm && gem install --no-rdoc --no-ri vim-epidemic" creates="{{ USERHOME }}/.rvm/gems/ruby-{{ RUBY_VERSION }}/bin/vim-epidemic"
-- name: Install pathogen
-  command: su - {{ USERNAME }} -c "mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim" creates="{{ USERHOME }}/.vim/autoload/pathogen.vim"
-- name: Run vim-epidemic
-  command: su - {{ USERNAME }} -c "cd && export VIM_RUBY=/opt/local/bin/ruby1.9 && source .rvm/scripts/rvm && vim-epidemic update" creates={{ USERHOME }}/.vim/bundle/Command-T
+  when: PACKAGE_MANAGER == 'macports'

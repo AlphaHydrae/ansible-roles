@@ -1,0 +1,4 @@
+---
+dependencies:
+  - { role: base-tools }
+  - { role: cli-tools }

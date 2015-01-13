@@ -1,3 +1,0 @@
----
-- name: start nginx
-  action: service name=nginx enabled=yes state=started

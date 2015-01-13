@@ -3,19 +3,13 @@
 - name: Install dev tools
   macports: name={{ item }} state=installed
   with_items:
-    - curl
-    - httpie
-    - gnupg
-    - go # required for direnv
     - libxml2 # required for nokogiri
     - libxslt # required for nokogiri
     - py27-pip
-    - rsync
     - ruby19
     - ruby20
     - ruby21
     - sqlite3
-    - wget
 - name: Select pip27 port
   script: common/port-select.sh pip pip27
   register: selected
@@ -28,14 +22,6 @@
   script: common/port-select.sh python python27
   register: selected
   changed_when: selected.stdout.find('already active') == -1
-- name: Make /opt/bin directory
-  file: path=/opt/bin state=directory
-- name: Install ack
-  get_url: url=http://beyondgrep.com/ack-2.14-single-file dest=/opt/bin/ack mode=0755
-- name: Clone direnv
-  git: repo=https://github.com/zimbatm/direnv.git dest=/opt/direnv executable=/opt/local/bin/git
-  notify:
-    - install direnv
 - name: Install dev gems
   command: su - {{ USERNAME }} -c "cd && source .rvm/scripts/rvm && gem install --no-rdoc --no-ri {{ item.name }}" creates="{{ USERHOME }}/.rvm/gems/ruby-{{ RUBY_VERSION }}/bin/{{ item.bin }}"
   with_items:

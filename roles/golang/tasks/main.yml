@@ -1,0 +1,6 @@
+- name: yum install golang
+  yum: pkg=golang state=latest
+  when: PACKAGE_MANAGER == 'yum'
+- name: port install go
+  macports: name=go state=installed
+  when: PACKAGE_MANAGER == 'macports'

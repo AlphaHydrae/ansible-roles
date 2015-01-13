@@ -1,0 +1,28 @@
+- name: install base tools (yum)
+  yum: pkg={{ item }} state=latest
+  with_items:
+    - curl
+    - gcc
+    - gcc-c++
+    - make
+    - python-setuptools
+    - rsync
+    - wget
+    # TODO: use vim & zsh roles
+  when: PACKAGE_MANAGER == 'yum'
+- name: install base tools (aptitude)
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - build-essential
+    - curl
+    - python-setuptools
+    - rsync
+    - wget
+  when: PACKAGE_MANAGER == 'apt'
+- name: install base tools (MacPorts)
+  macports: name={{ item }} state=installed
+  with_items:
+    - curl
+    - rsync
+    - wget
+  when: PACKAGE_MANAGER == 'macports'

@@ -1,0 +1,9 @@
+---
+- name: mkdir /web/certificates/{{ domain }}
+  file: path=/web/certificates/{{ domain }} group=root owner=root mode=0700 state=directory
+- name: file /web/certificates/{{ domain }}/{{ item }} (manual installation)
+  file: path=/web/certificates/{{ domain }}/{{ item }} group=root owner=root mode=0400 state=file
+  with_items:
+    - server.key
+    - server.crt
+    - server.pem

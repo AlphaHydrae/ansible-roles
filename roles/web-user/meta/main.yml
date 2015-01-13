@@ -1,4 +1,3 @@
 ---
 dependencies:
   - { role: web-directory }
-  - { role: nginx-unix-sockets }

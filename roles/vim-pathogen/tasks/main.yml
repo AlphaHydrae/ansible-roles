@@ -1,0 +1,2 @@
+- name: Install pathogen
+  command: su - {{ user }} -c "mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim" creates="{{ USER_HOMES | default('/home') }}/{{ user }}/.vim/autoload/pathogen.vim"

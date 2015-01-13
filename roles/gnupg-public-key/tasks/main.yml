@@ -1,0 +1,12 @@
+- name: check if key already exists
+  shell: gpg --list-keys {{ key_fingerprint }} &>/dev/null
+  sudo: yes
+  sudo_user: "{{ user }}"
+  register: command_result
+  failed_when: command_result.rc != 0 and command_result.rc != 2
+  changed_when: command_result.rc != 0 and command_result.rc != 2
+- name: request key from server
+  command: gpg --keyserver {{ key_server | default("hkp://keys.gnupg.net") }} --recv-keys {{ key_fingerprint }}
+  sudo: yes
+  sudo_user: "{{ user }}"
+  when: command_result.rc != 0

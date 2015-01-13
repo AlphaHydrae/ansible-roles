@@ -1,6 +1,6 @@
-- name: install GnuPG v1 (yum)
+- name: yum install gnupg
   yum: pkg=gnupg state=latest
   when: host_package_manager == 'yum'
-- name: install GnuPG v1 (MacPorts)
+- name: port install gnupg
   macports: name=gnupg state=installed
   when: host_package_manager == 'macports'

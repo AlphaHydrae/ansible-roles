@@ -1,17 +1,17 @@
 ---
-- name: groupadd {{ HOSTNAME }}-web
-  group: name={{ HOSTNAME }}-web state=present
-- name: add users to {{ HOSTNAME }}-web group
-  action: user name={{ item }} append=yes groups={{ HOSTNAME }}-web
+- name: groupadd {{ host_name }}-web
+  group: name={{ host_name }}-web state=present
+- name: add users to {{ host_name }}-web group
+  action: user name={{ item }} append=yes groups={{ host_name }}-web
   with_items: web_users
   # FIXME: this should restart nginx
 - name: mkdir /web
-  file: path=/web group={{ HOSTNAME }}-web mode=0751 state=directory
+  file: path=/web group={{ host_name }}-web mode=0751 state=directory
 - name: mkdir /web/certificates
   file: path=/web/certificates group=root owner=root mode=0700 setype=httpd_config_t state=directory
 - name: mkdir /web/sites
-  file: path=/web/sites group={{ HOSTNAME }}-web mode=0751 setype=httpd_sys_content_t state=directory
+  file: path=/web/sites group={{ host_name }}-web mode=0751 setype=httpd_sys_content_t state=directory
 - name: mkdir /run/web
-  file: path=/run/web group={{ HOSTNAME }}-web owner=root mode=0751 setype=httpd_var_run_t state=directory
+  file: path=/run/web group={{ host_name }}-web owner=root mode=0751 setype=httpd_var_run_t state=directory
 - name: ln -s /run/web /web/run
-  file: src=/run/web dest=/web/run group={{ HOSTNAME }}-web owner=root state=link
+  file: src=/run/web dest=/web/run group={{ host_name }}-web owner=root state=link

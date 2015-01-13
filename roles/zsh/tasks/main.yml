@@ -1,9 +1,9 @@
 - name: yum install zsh
   yum: pkg=zsh state=latest
-  when: PACKAGE_MANAGER == 'yum'
+  when: host_package_manager == 'yum'
 - name: apt-get install zsh
   apt: name=zsh state=latest
-  when: PACKAGE_MANAGER == 'apt'
+  when: host_package_manager == 'apt'
 - name: port install zsh
   macports: name=zsh state=installed
-  when: PACKAGE_MANAGER == 'macports'
+  when: host_package_manager == 'macports'

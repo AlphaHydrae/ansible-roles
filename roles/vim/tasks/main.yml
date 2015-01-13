@@ -1,11 +1,11 @@
 - name: yum install vim
   yum: pkg=vim state=latest
-  when: PACKAGE_MANAGER == 'yum'
+  when: host_package_manager == 'yum'
 - name: port install ruby19
   macports: name=ruby19 state=installed
-  when: PACKAGE_MANAGER == 'macports'
+  when: host_package_manager == 'macports'
 - name: port install vim +ruby19
   script: common/port-install.sh vim +ruby19
   register: installed
   changed_when: installed.stdout.find('already installed') == -1
-  when: PACKAGE_MANAGER == 'macports'
+  when: host_package_manager == 'macports'

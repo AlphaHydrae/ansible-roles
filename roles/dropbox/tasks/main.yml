@@ -13,7 +13,7 @@
   command: su - {{ USERNAME }} -c "cd && ln -s {{ USERHOME }}/Safebox/Archives {{ USERHOME }}/Archives"
   when: archives_directory_link|changed
 - name: Link Desktop to Dropbox
-  file: path="{{ USERHOME }}/Dropbox/Desktop/{{ HUMAN_NAME }}" src="{{ USERHOME }}/Desktop" state=link
+  file: path="{{ USERHOME }}/Dropbox/Desktop/{{ host_human_name }}" src="{{ USERHOME }}/Desktop" state=link
 - name: Check whether Music directory is linked
   shell: test -L "{{ USERHOME }}/Music" && echo 'yes' || echo 'no'
   register: music_link

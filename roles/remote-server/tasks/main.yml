@@ -1,0 +1,11 @@
+---
+- name: install hostname file
+  action: template src=hostname.j2 dest=/etc/hostname
+- name: copy /etc/motd (fedora)
+  action: copy src={{ host_custom_files }}/motd dest=/etc/motd
+  when: remote_server_motd and host_os_family == 'fedora'
+- name: copy /etc/motd.tail (ubuntu)
+  action: copy src={{ host_custom_files }}/motd dest=/etc/motd.tail
+  when: remote_server_motd and host_os_family == 'ubuntu'
+- name: forward root mail
+  action: template src=forward.j2 dest=/root/.forward

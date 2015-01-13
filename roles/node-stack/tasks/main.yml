@@ -1,13 +1,13 @@
 ---
 - name: Install NodeJS
   yum: pkg=nodejs state=latest
-  when: PACKAGE_MANAGER == "yum"
+  when: host_package_manager == "yum"
 - name: Install NPM
   yum: pkg=npm state=latest
-  when: PACKAGE_MANAGER == "yum"
+  when: host_package_manager == "yum"
 - name: Install NodeJS
   macports: name=nodejs state=installed
-  when: PACKAGE_MANAGER == "macports"
+  when: host_package_manager == "macports"
 - name: Install NPM
   macports: name=npm state=installed
-  when: PACKAGE_MANAGER == "macports"
+  when: host_package_manager == "macports"

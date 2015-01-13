@@ -1,7 +1,7 @@
 ---
 - name: reload monit
   command: /usr/bin/monit reload
-  when: PACKAGE_MANAGER != 'macports'
+  when: host_package_manager != 'macports'
 - name: reload monit
   command: /opt/local/bin/monit reload
-  when: PACKAGE_MANAGER == 'macports'
+  when: host_package_manager == 'macports'

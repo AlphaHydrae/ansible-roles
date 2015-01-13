@@ -1,7 +1,0 @@
----
-- name: apt-get update
-  apt: update-cache=yes
-  when: PACKAGE_MANAGER == 'apt'
-- include: system.yml
-- include: ssh.yml
-- include: logwatch-{{ OS_FAMILY }}.yml

@@ -1,0 +1,19 @@
+---
+- name: yum install firewalld
+  yum: pkg=firewalld state=latest
+  when: host_package_manager == 'yum' and host_firewall == 'firewalld'
+- name: start firewalld
+  service: name=firewalld enabled=yes state=started
+  when: host_firewall == 'firewalld'
+- name: open port 22 (firewalld)
+  firewalld: service=ssh permanent=true state=enabled
+  when: host_firewall == 'firewalld'
+- name: apt-get install ufw
+  apt: pkg=ufw state=latest
+  when: host_package_manager == 'apt' and host_firewall == 'ufw'
+- name: enable ufw
+  ufw: state=enabled
+  when: host_firewall == 'ufw'
+- name: open port 22 (ufw)
+  ufw: rule=allow port=22 proto=tcp
+  when: host_firewall == 'ufw'

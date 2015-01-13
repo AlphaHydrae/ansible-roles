@@ -1,0 +1,20 @@
+---
+- name: yum install logwatch (with fortune mods)
+  action: yum pkg={{ item }} state=latest
+  with_items:
+    - logwatch
+    - fortune-mod
+    - fortune-firefly
+  when: host_package_manager == 'yum'
+- name: apt-get install logwatch (with fortune mods)
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - logwatch
+    - fortunes
+    - fortune-mod
+    - fortunes-bofh-excuses
+    - fortunes-mario
+    - fortunes-min
+    - fortunes-off
+    - fortunes-spam
+  when: host_package_manager == 'apt'

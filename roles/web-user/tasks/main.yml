@@ -1,9 +1,9 @@
 ---
 - name: useradd WEBUSER_NAME
-  user: name={{ WEBUSER_NAME }} generate_ssh_key=yes ssh_key_bits=8192
+  user: name={{ WEBUSER_NAME }}
 - name: mkdir /web/sites/WEBUSER_NAME
-  file: path=/web/sites/{{ WEBUSER_NAME }} group={{ HOSTNAME }}-web owner={{ WEBUSER_NAME }} mode=0750 state=directory
+  file: path=/web/sites/{{ WEBUSER_NAME }} group={{ host_name }}-web owner={{ WEBUSER_NAME }} mode=0750 state=directory
 - name: symlink /home/WEBUSER_NAME/web
   file: path={{ USER_HOMES | default("/home") }}/{{ WEBUSER_NAME }}/web src=/web/sites/{{ WEBUSER_NAME }} state=link
 - name: mkdir /run/web/{{ WEBUSER_NAME }}
-  file: path=/run/web/{{ WEBUSER_NAME }} group={{ HOSTNAME }}-web owner={{ WEBUSER_NAME }} mode=0750 setype=httpd_var_run_t state=directory
+  file: path=/run/web/{{ WEBUSER_NAME }} group={{ host_name }}-web owner={{ WEBUSER_NAME }} mode=0750 setype=httpd_var_run_t state=directory

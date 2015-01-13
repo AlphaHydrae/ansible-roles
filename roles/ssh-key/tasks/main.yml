@@ -1,8 +1,2 @@
-- name: Make .ssh directory
-  file: path="{{ USERHOME }}/.ssh" group={{ USERGROUP }} owner={{ USERNAME }} mode=0700 state=directory
-- name: Generate RSA key pair
-  shell: su - {{ USERNAME }} -c "ssh-keygen -t rsa -b 8192 -N '' -f {{ USERHOME }}/.ssh/id_rsa" creates="{{ USERHOME }}/.ssh/id_rsa"
-- name: Ensure private key permissions
-  file: path="{{ USERHOME }}/.ssh/id_rsa" group={{ USERGROUP }} owner={{ USERNAME }} mode=0400 state=file
-- name: Ensure public key permissions
-  file: path="{{ USERHOME }}/.ssh/id_rsa.pub" group={{ USERGROUP }} owner={{ USERNAME }} mode=0400 state=file
+- name: generate ssh key
+  user: name={{ user }} generate_ssh_key=yes ssh_key_bits={{ bits | default(8192) }} ssh_key_comment={{ user }}@{{ host_name }}

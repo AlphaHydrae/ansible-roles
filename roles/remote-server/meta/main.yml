@@ -1,0 +1,5 @@
+---
+dependencies:
+  - { role: logwatch }
+  - { role: remote-firewall }
+  - { role: ssh-key-public-auth }

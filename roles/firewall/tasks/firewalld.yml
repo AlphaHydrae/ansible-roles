@@ -1,5 +1,0 @@
----
-- name: yum install firewalld
-  yum: pkg=firewalld state=latest
-- name: start firewalld
-  service: name=firewalld enabled=yes state=started

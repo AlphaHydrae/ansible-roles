@@ -1,3 +1,4 @@
 ---
 dependencies:
+  - { role: ssh-key, user: "{{ WEBUSER_NAME }}" }
   - { role: web-directory }

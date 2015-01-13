@@ -1,8 +1,7 @@
-- name: Install ansible and update MacPorts cache
-  macports: name=ansible state=installed update_cache=yes
-- name: Install dev tools
+- name: install dev tools
   macports: name={{ item }} state=installed
   with_items:
+    - ansible
     - libxml2 # required for nokogiri
     - libxslt # required for nokogiri
     - py27-pip
@@ -10,19 +9,19 @@
     - ruby20
     - ruby21
     - sqlite3
-- name: Select pip27 port
+- name: port select pip pip27
   script: common/port-select.sh pip pip27
   register: selected
   changed_when: selected.stdout.find('already active') == -1
-- name: Select ruby21 port
+- name: port select ruby ruby21
   script: common/port-select.sh ruby ruby21
   register: selected
   changed_when: selected.stdout.find('already active') == -1
-- name: Select python27 port
+- name: port select python python27
   script: common/port-select.sh python python27
   register: selected
   changed_when: selected.stdout.find('already active') == -1
-- name: Install dev gems
+- name: install dev gems
   command: su - {{ USERNAME }} -c "cd && source .rvm/scripts/rvm && gem install --no-rdoc --no-ri {{ item.name }}" creates="{{ USERHOME }}/.rvm/gems/ruby-{{ RUBY_VERSION }}/bin/{{ item.bin }}"
   with_items:
     - { name: 'dotenv', bin: 'dotenv' }

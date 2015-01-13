@@ -1,7 +1,0 @@
----
-- name: restart ssh
-  service: name=sshd state=restarted
-  when: OS_FAMILY == 'fedora'
-- name: restart ssh
-  service: name=ssh state=restarted
-  when: OS_FAMILY == 'ubuntu'

@@ -1,17 +1,17 @@
 ---
 - name: yum install monit
   yum: name=monit state=latest
-  when: PACKAGE_MANAGER == 'yum'
+  when: host_package_manager == 'yum'
   tags:
     - monit
 - name: apt-get install monit
   apt: name=monit state=latest
-  when: PACKAGE_MANAGER == 'apt'
+  when: host_package_manager == 'apt'
   tags:
     - monit
 - name: port install monit
   macports: name=monit state=present
-  when: PACKAGE_MANAGER == 'macports'
+  when: host_package_manager == 'macports'
   tags:
     - monit
 - name: template {{ MONIT_CONFIG }}
@@ -26,11 +26,11 @@
     - monit
 - name: start monit
   service: name=monit enabled=yes state=started
-  when: PACKAGE_MANAGER != 'macports'
+  when: host_package_manager != 'macports'
   tags:
     - monit
 - name: port load monit
-  script: scripts/macports-load.sh com.tildeslash.monit
-  when: PACKAGE_MANAGER == 'macports'
+  script: common/port-load.sh com.tildeslash.monit
+  when: host_package_manager == 'macports'
   tags:
     - monit

@@ -1,6 +1,6 @@
 - macports: name=redis state=installed
-  when: PACKAGE_MANAGER == 'macports'
+  when: host_package_manager == 'macports'
 - script: common/port-load.sh redis
-  when: PACKAGE_MANAGER == 'macports'
+  when: host_package_manager == 'macports'
   register: loaded
   changed_when: loaded.stdout.find('already loaded') == -1

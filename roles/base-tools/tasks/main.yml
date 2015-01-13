@@ -1,3 +1,4 @@
+# yum
 - name: install base tools (yum)
   yum: pkg={{ item }} state=latest
   with_items:
@@ -8,8 +9,8 @@
     - python-setuptools
     - rsync
     - wget
-    # TODO: use vim & zsh roles
-  when: PACKAGE_MANAGER == 'yum'
+  when: host_package_manager == 'yum'
+# aptitude
 - name: install base tools (aptitude)
   apt: pkg={{ item }} state=latest
   with_items:
@@ -18,11 +19,12 @@
     - python-setuptools
     - rsync
     - wget
-  when: PACKAGE_MANAGER == 'apt'
+  when: host_package_manager == 'apt'
+# MacPorts
 - name: install base tools (MacPorts)
   macports: name={{ item }} state=installed
   with_items:
     - curl
     - rsync
     - wget
-  when: PACKAGE_MANAGER == 'macports'
+  when: host_package_manager == 'macports'

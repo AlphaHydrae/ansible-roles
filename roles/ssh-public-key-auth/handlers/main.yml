@@ -1,0 +1,7 @@
+---
+- name: restart ssh
+  service: name=sshd state=restarted
+  when: host_os_family == 'fedora'
+- name: restart ssh
+  service: name=ssh state=restarted
+  when: host_os_family == 'ubuntu'

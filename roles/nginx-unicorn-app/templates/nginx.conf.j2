@@ -1,20 +1,20 @@
-upstream {{ NGINX_UNICORN_APP.name }}_unicorn_cluster {
-  server unix:{{ NGINX_UNICORN_APP.socket }};
+upstream {{ app_identifier }}_unicorn_cluster {
+  server unix:{{ app_socket }};
 }
 
 server {
   listen 80;
-  server_name {% for server_name in NGINX_UNICORN_APP.server_names %} {{ server_name }}{% endfor %};
+  server_name {% for server_name in app_server_names %} {{ server_name }}{% endfor %};
   return 302 https://$server_name$request_uri;
 }
 
 server {
   listen 443; ssl on;
-  ssl_certificate /web/certificates/{{ NGINX_UNICORN_APP.domain }}/server.crt;
-  ssl_certificate_key /web/certificates/{{ NGINX_UNICORN_APP.domain }}/server.key;
+  ssl_certificate /web/certificates/{{ app_domain }}/server.crt;
+  ssl_certificate_key /web/certificates/{{ app_domain }}/server.key;
 
-  server_name{% for server_name in NGINX_UNICORN_APP.server_names %} {{ server_name }}{% endfor %};
-  root {{ NGINX_UNICORN_APP.path }}/public;
+  server_name{% for server_name in app_server_names %} {{ server_name }}{% endfor %};
+  root {{ app_path }}/public;
 
   location / {
     proxy_set_header X-Real-IP $remote_addr;
@@ -47,7 +47,7 @@ server {
 
     # Pass request to unicorn.
     if (!-f $request_filename) {
-      proxy_pass http://{{ NGINX_UNICORN_APP.name }}_unicorn_cluster;
+      proxy_pass http://{{ app_identifier }}_unicorn_cluster;
       break;
     }
   }

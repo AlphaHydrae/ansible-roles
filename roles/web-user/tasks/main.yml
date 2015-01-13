@@ -5,3 +5,5 @@
   file: path=/web/sites/{{ WEBUSER_NAME }} group={{ HOSTNAME }}-web owner={{ WEBUSER_NAME }} mode=0750 state=directory
 - name: symlink /home/WEBUSER_NAME/web
   file: path={{ USER_HOMES | default("/home") }}/{{ WEBUSER_NAME }}/web src=/web/sites/{{ WEBUSER_NAME }} state=link
+- name: mkdir /run/web/{{ WEBUSER_NAME }}
+  file: path=/run/web/{{ WEBUSER_NAME }} group={{ HOSTNAME }}-web owner={{ WEBUSER_NAME }} mode=0750 setype=httpd_var_run_t state=directory

@@ -1,9 +1,11 @@
 ---
+- name: mkdir /run/web/{{ app_user }}/{{ app_name }}
+  file: path=/run/web/{{ app_user }}/{{ app_name }} group={{ app_user }} owner={{ app_user }} mode=0755 setype=httpd_var_run_t state=directory
 - name: configure nginx to proxy to unicorn cluster
-  template: src=nginx.conf.j2 dest=/web/conf.d/{{ NGINX_UNICORN_APP.name }}.conf group={{ HOSTNAME }}-web owner=root setype=httpd_config_t
+  template: src=nginx.conf.j2 dest=/web/conf.d/{{ app_identifier }}.conf group={{ HOSTNAME }}-web owner=root setype=httpd_config_t
   notify:
     - restart nginx
 - name: add app to nginx configuration
-  lineinfile: dest=/web/nginx.conf regexp="{{ NGINX_UNICORN_APP.name }}" line="include /web/conf.d/{{ NGINX_UNICORN_APP.name }}.conf;"
+  lineinfile: dest=/web/nginx.conf regexp="{{ app_identifier }}" line="include /web/conf.d/{{ app_identifier }}.conf;"
   notify:
     - restart nginx

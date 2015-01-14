@@ -1,2 +1,0 @@
-- name: apply gitenv
-  command: su - {{ user }} -c "cd && gitenv apply"

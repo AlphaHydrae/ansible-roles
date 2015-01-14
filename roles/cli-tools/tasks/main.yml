@@ -3,11 +3,13 @@
   yum: pkg={{ item }} state=latest
   with_items:
     - httpie
+    #- hub (hub seems to be bugged on fedora)
   when: host_package_manager == 'yum'
 - name: install base tools (MacPorts)
   macports: name={{ item }} state=installed
   with_items:
     - httpie
+    - hub
   when: host_package_manager == 'macports'
 # ack
 - name: mkdir /opt/bin

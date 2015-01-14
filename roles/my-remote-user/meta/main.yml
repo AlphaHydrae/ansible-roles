@@ -1,0 +1,14 @@
+---
+dependencies:
+  - { role: ssh-key, tags: [ ssh ] }
+  - { role: zsh-user, tags: [ zsh ] }
+  - { role: github, tags: [ github ] }
+  - { role: env, when: env_repo is defined, tags: [ env ] }
+  - role: gitenv
+    gitenv_config: "{{ user_home }}/{{ env_path }}/.gitenv.rb"
+    gitenv_backups: [ { name: '.bashrc' }, { name: '.bash_profile' }, { name: '.zshrc' } ]
+    gitenv_environment: { ENV_REPO: "{{ env_path }}" }
+    when: env_path is defined
+    tags: [ env ]
+  - { role: rvm, ruby_version_default: true, tags: [ rvm ] }
+  - { role: vim-pathogen, tags: [ vim ] }

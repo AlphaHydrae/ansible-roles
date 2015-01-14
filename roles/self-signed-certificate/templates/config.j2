@@ -3,6 +3,6 @@ distinguished_name = req_distinguished_name
 prompt = no
 
 [ req_distinguished_name ]
-countryName = {{ country_name | default("US") }}
-commonName = {{ domain | default("example.com") }}
-emailAddress = {{ email_address | default("contact@example.com") }}
+countryName = {{ certificate_country_name | default("US") }}
+commonName = {{ certificate_domain | default("example.com") }}
+emailAddress = {{ certificate_email_address | default("contact@example.com") }}

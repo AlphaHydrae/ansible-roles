@@ -1,2 +1,12 @@
 - name: generate ssh key
-  user: name={{ user }} generate_ssh_key=yes ssh_key_bits={{ bits | default(8192) }} ssh_key_comment={{ user }}@{{ host_name }}
+  user: name={{ user }} generate_ssh_key=yes ssh_key_bits={{ ssh_key_bits | default(8192) }} ssh_key_comment={{ user }}@{{ host_name }}
+  when: host_environment == 'production'
+- name: mkdir ~/.ssh
+  file: path={{ ssh_dir }} owner={{ user }} group={{ group | default(user) }} mode=0700 state=directory
+  when: host_environment != 'production'
+- name: copy private key
+  copy: src={{ host_custom_files }}/keys/{{ user }} dest={{ ssh_dir }}/id_rsa owner={{ user }} group={{ group | default(user) }} mode=0600
+  when: host_environment != 'production'
+- name: copy public key
+  copy: src={{ host_custom_files }}/keys/{{ user }}.pub dest={{ ssh_dir }}/id_rsa.pub owner={{ user }} group={{ group | default(user) }} mode=0644
+  when: host_environment != 'production'

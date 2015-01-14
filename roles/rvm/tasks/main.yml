@@ -12,3 +12,4 @@
   command: su - {{ user }} -c "rvm list|grep -v '#'|grep '*'|cut -d ' ' -f 2|grep {{ ruby_version }} &>/dev/null && echo {{ ruby_version }} is already the default || rvm use --default {{ ruby_version }}"
   register: command_result
   changed_when: "'already the default' not in command_result.stdout"
+  when: ruby_version is defined and ruby_version_default

@@ -1,0 +1,4 @@
+---
+app_ruby_version: ruby-2.1.5
+app_path: /web/sites/{{ app_user }}/{{ app_name }}
+app_command: "{{ app_path }}/script/boot"

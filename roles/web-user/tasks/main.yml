@@ -1,9 +1,9 @@
 ---
-- name: useradd WEBUSER_NAME
-  user: name={{ WEBUSER_NAME }}
-- name: mkdir /web/sites/WEBUSER_NAME
-  file: path=/web/sites/{{ WEBUSER_NAME }} group={{ host_name }}-web owner={{ WEBUSER_NAME }} mode=0750 state=directory
-- name: symlink /home/WEBUSER_NAME/web
-  file: path={{ USER_HOMES | default("/home") }}/{{ WEBUSER_NAME }}/web src=/web/sites/{{ WEBUSER_NAME }} state=link
-- name: mkdir /run/web/{{ WEBUSER_NAME }}
-  file: path=/run/web/{{ WEBUSER_NAME }} group={{ host_name }}-web owner={{ WEBUSER_NAME }} mode=0750 setype=httpd_var_run_t state=directory
+- name: useradd {{ user }}
+  user: name={{ user }}
+- name: mkdir /web/sites/{{ user }}
+  file: path=/web/sites/{{ user }} group={{ host_name }}-web owner={{ user }} mode=0750 state=directory
+- name: symlink /home/{{ user }}/web
+  file: path={{ host_user_homes | default("/home") }}/{{ user }}/web src=/web/sites/{{ user }} state=link
+- name: mkdir /run/web/{{ user }}
+  file: path=/run/web/{{ user }} group={{ host_name }}-web owner={{ user }} mode=0750 setype=httpd_var_run_t state=directory

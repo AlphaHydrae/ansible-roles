@@ -1,0 +1,3 @@
+---
+user_home: "{{ host_user_homes | default('/home') }}/{{ user }}"
+env_path: env

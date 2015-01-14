@@ -1,0 +1,11 @@
+---
+dependencies:
+  - { role: web-user, user: "{{ app_user }}", tags: [ web-user ] }
+  - { role: github, user: "{{ app_user }}", tags: [ github ] }
+  - { role: rvm, user: "{{ app_user }}", ruby_version: "{{ app_ruby_version }}", tags: [ rvm ] }
+  - { role: rvm-wrapper, user: "{{ app_user }}", ruby_version: "{{ app_ruby_version }}", prefix: "{{ app_name }}", binary: bundle, tags: [ rvm ] }
+  - { role: postgresql-peer-db, db_name: "{{ app_name }}", db_user: "{{ app_user }}", tags: [ db ] }
+  - { role: self-signed-certificate, when: host_environment != 'production', tags: [ ssl ] }
+  - { role: ssl-certificate, certificate_domain: "{{ app_domain }}", when: host_environment == 'production', tags: [ ssl ] }
+  - { role: nginx-unicorn-app, tags: [ nginx ] }
+  - { role: systemd-unicorn-app, tags: [ systemd ] }

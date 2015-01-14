@@ -1,5 +1,9 @@
 ---
-- name: Install vim-epidemic gem
-  command: su - {{ USERNAME }} -c "cd && source .rvm/scripts/rvm && gem install --no-rdoc --no-ri vim-epidemic" creates="{{ USERHOME }}/.rvm/gems/ruby-{{ RUBY_VERSION }}/bin/vim-epidemic"
-- name: Run vim-epidemic
-  command: su - {{ USERNAME }} -c "cd && export VIM_RUBY=/opt/local/bin/ruby1.9 && source .rvm/scripts/rvm && vim-epidemic update" creates={{ USERHOME }}/.vim/bundle/Command-T
+- name: gem install vim-epidemic
+  command: su - {{ user }} -c "cd && gem install --no-rdoc --no-ri vim-epidemic" creates="{{ user_home }}/.rvm/gems/ruby-{{ ruby_version }}/bin/vim-epidemic"
+- name: vim-epidemic update
+  command: su - {{ user }} -c "cd && vim-epidemic update" creates={{ user_home }}/.vim/bundle/Command-T
+  when: vim_ruby is not defined
+- name: vim-epidemic update (with custom ruby)
+  command: su - {{ user }} -c "cd && export VIM_RUBY={{ vim_ruby }} && source .rvm/scripts/rvm && vim-epidemic update" creates={{ user_home }}/.vim/bundle/Command-T
+  when: vim_ruby is defined

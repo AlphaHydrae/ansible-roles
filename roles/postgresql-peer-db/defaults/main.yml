@@ -1,2 +1,2 @@
 ---
-PEER_MAP: { mappings: {} }
+db_peer_map: { mappings: {} }

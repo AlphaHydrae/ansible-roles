@@ -1,2 +1,3 @@
 ---
-certificate_path: "{{ path }}/{{ domain | default('example.com') }}"
+certificate_dir: /web/certificates
+certificate_full_path: "{{ certificate_dir }}/{{ certificate_domain | default('example.com') }}"

@@ -1,4 +1,4 @@
 ---
 app_identifier: "{{ app_user }}_{{ app_name }}"
-app_path: /web/sites/{{ app_user }}/{{ app_name }}/current
+app_path: /web/sites/{{ app_user }}/{{ app_name }}
 app_socket: /run/web/{{ app_user }}/{{ app_name }}/unicorn.sock

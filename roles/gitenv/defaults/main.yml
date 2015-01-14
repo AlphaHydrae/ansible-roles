@@ -1,0 +1,5 @@
+---
+user_home: "{{ host_user_homes | default('/home') }}/{{ user }}"
+ruby_version: ruby-2.1.5
+install_path: "{{ user_home }}/install"
+gitenv_environment: {}

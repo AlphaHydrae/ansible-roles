@@ -1,4 +1,4 @@
-module nginx-unix-sockets 1.0;
+module httpd-unix-sockets 1.0;
 
 require {
         type httpd_t;

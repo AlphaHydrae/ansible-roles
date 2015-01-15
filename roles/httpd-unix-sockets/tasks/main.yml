@@ -1,0 +1,17 @@
+- name: mkdir /root/selinux
+  file: path=/root/selinux state=directory
+- name: copy /root/selinux/httpd-unix-sockets.te
+  copy: src=httpd-unix-sockets.te dest=/root/selinux/httpd-unix-sockets.te
+- name: install policy core utils
+  yum: pkg=policycoreutils-python state=latest
+- name: check if selinux module is loaded
+  shell: semodule -l|grep httpd-unix-sockets &>/dev/null && echo installed || echo not installed
+  register: module_installed
+  changed_when: false
+- name: compile selinux module
+  command: checkmodule -m -M -o httpd-unix-sockets.mod httpd-unix-sockets.te chdir=/root/selinux creates=/root/selinux/httpd-unix-sockets.mod
+- name: create selinux policy package
+  command: semodule_package -o httpd-unix-sockets.pp -m httpd-unix-sockets.mod chdir=/root/selinux creates=/root/selinux/httpd-unix-sockets.pp
+- name: load selinux policy package
+  command: semodule -i httpd-unix-sockets.pp chdir=/root/selinux
+  when: "'not installed' in module_installed.stdout"

@@ -2,4 +2,3 @@
 dependencies:
   - { role: nginx }
   - { role: web-directory }
-  - { role: httpd-unix-sockets }

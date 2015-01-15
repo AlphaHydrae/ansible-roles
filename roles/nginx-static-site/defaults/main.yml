@@ -1,0 +1,3 @@
+---
+site_path: /web/sites/{{ user }}/{{ site_name }}
+site_identifier: "{{ user }}_{{ site_name }}"

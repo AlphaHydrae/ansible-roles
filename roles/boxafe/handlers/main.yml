@@ -1,4 +1,4 @@
 - name: index ports
   command: /opt/local/bin/portindex chdir="/opt/ports"
 - name: apply gitenv
-  command: su - {{ USERNAME }} -c "cd && source .rvm/scripts/rvm && which gitenv &>/dev/null && gitenv apply"
+  command: su - {{ user }} -c "cd && source .rvm/scripts/rvm && which gitenv &>/dev/null && gitenv apply"

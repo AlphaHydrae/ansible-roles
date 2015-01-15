@@ -1,39 +1,25 @@
-# Patched EncFS
-#- name: Install EncFS dependencies
-#  macports: name={{ item }} state=installed
-#  with_items:
-#    - autoconf
-#    - automake
-#    - libtool
-#- name: Make Portfiles directory
-#  file: path="/opt/ports/fuse/encfs" state=directory
-#- name: Install EncFS patched Portfile
-#  copy: src=Portfile.encfs dest="/opt/ports/fuse/encfs/Portfile"
-#  notify:
-#    - index ports
 - name: Install EncFS
   macports: name=encfs state=installed
-# Boxafe
 - name: Ensure boxafe name is in environment file
-  lineinfile: line="BOXAFE_NAME=\"{{ BOXAFE_NAME }}\"" dest="{{ USERHOME }}/.env" state=present create=yes group={{ USERGROUP }} owner={{ USERNAME }} mode=0600
+  lineinfile: line="boxafe_name=\"{{ boxafe_name }}\"" dest="{{ user_home }}/.env" state=present create=yes group={{ group }} owner={{ user }} mode=0600
 - name: Ensure boxafe root is in environment file
-  lineinfile: line="BOXAFE_ROOT=\"{{ BOXAFE_ROOT }}\"" dest="{{ USERHOME }}/.env" state=present create=yes group={{ USERGROUP }} owner={{ USERNAME }} mode=0600
+  lineinfile: line="boxafe_root=\"{{ boxafe_root }}\"" dest="{{ user_home }}/.env" state=present create=yes group={{ group }} owner={{ user }} mode=0600
 - name: Ensure boxafe EncFS config is in environment file
-  lineinfile: line="BOXAFE_ENCFS_CONFIG=\"~/{{ BOXAFE_ENCFS_CONFIG }}\"" dest="{{ USERHOME }}/.env" state=present create=yes group={{ USERGROUP }} owner={{ USERNAME }} mode=0600
+  lineinfile: line="boxafe_encfs_config=\"~/{{ boxafe_encfs_config }}\"" dest="{{ user_home }}/.env" state=present create=yes group={{ group }} owner={{ user }} mode=0600
 - name: Ensure boxafe password file is in environment file
-  lineinfile: line="BOXAFE_PASSWORD_FILE=\"~/{{ BOXAFE_PASSWORD_FILE }}\"" dest="{{ USERHOME }}/.env" state=present create=yes group={{ USERGROUP }} owner={{ USERNAME }} mode=0600
+  lineinfile: line="boxafe_password_file=\"~/{{ boxafe_password_file }}\"" dest="{{ user_home }}/.env" state=present create=yes group={{ group }} owner={{ user }} mode=0600
 - name: Install boxafe gem
-  command: su - {{ USERNAME }} -c "cd && source .rvm/scripts/rvm && gem install --no-rdoc --no-ri boxafe" creates="{{ USERHOME }}/.rvm/gems/ruby-{{ RUBY_VERSION }}/bin/boxafe"
+  command: su - {{ user }} -c "cd && source .rvm/scripts/rvm && gem install --no-rdoc --no-ri boxafe" creates="{{ user_home }}/.rvm/gems/ruby-{{ RUBY_VERSION }}/bin/boxafe"
 - name: Ensure EncFS config file permissions
-  file: path="{{ USERHOME }}/{{ BOXAFE_ENCFS_CONFIG }}" group={{ USERGROUP }} owner={{ USERNAME }} mode=0400
+  file: path="{{ user_home }}/{{ boxafe_encfs_config }}" group={{ group }} owner={{ user }} mode=0400
 - name: Ensure safebox password file permissions
-  file: path="{{ USERHOME }}/{{ BOXAFE_PASSWORD_FILE }}" group={{ USERGROUP }} owner={{ USERNAME }} mode=0400
+  file: path="{{ user_home }}/{{ boxafe_password_file }}" group={{ group }} owner={{ user }} mode=0400
 - name: Ensure boxafe configuration
-  file: path="{{ USERHOME }}/.boxafe.rb" src="{{ boxafe_config }}" state=link
+  file: path="{{ user_home }}/.boxafe.rb" src="{{ boxafe_config }}" state=link
 - name: Mount boxafe
-  command: su - {{ USERNAME }} -c "cd && export PATH=/opt/local/bin:$PATH && source .rvm/scripts/rvm && rvm use {{ RUBY_VERSION }} && boxafe mount" creates=/Volumes/{{ BOXAFE_NAME }}
+  command: su - {{ user }} -c "cd && export PATH=/opt/local/bin:$PATH && source .rvm/scripts/rvm && rvm use {{ RUBY_VERSION }} && boxafe mount" creates=/Volumes/{{ boxafe_name }}
 - name: Link Safebox
-  file: path="{{ USERHOME }}/Safebox" src="/Volumes/Safebox" state=link
+  file: path="{{ user_home }}/Safebox" src="/Volumes/Safebox" state=link
   notify: apply gitenv
 - name: Mount boxafe on startup
-  command: su - {{ USERNAME }} -c "cd && source .rvm/scripts/rvm && boxafe start" creates="{{ USERHOME }}/Library/LaunchAgents/com.alphahydrae.boxafe.plist"
+  command: su - {{ user }} -c "cd && source .rvm/scripts/rvm && boxafe start" creates="{{ user_home }}/Library/LaunchAgents/com.alphahydrae.boxafe.plist"

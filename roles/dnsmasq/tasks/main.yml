@@ -1,0 +1,10 @@
+---
+- name: port install dnsmasq
+  macports: name=dnsmasq state=installed
+- name: check if dnsmasq is loaded
+  shell: launchctl list|grep org.macports.dnsmasq &>/dev/null && echo dnsmasq is already loaded || echo dnsmasq is not loaded
+  register: dnsmasq_loaded
+  changed_when: false
+- name: port load dnsmasq
+  shell: port load dnsmasq
+  when: "'not loaded' in dnsmasq_loaded.stdout"

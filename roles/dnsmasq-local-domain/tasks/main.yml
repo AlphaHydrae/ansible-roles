@@ -1,0 +1,7 @@
+---
+- name: configure dnsmasq
+  lineinfile: dest=/opt/local/etc/dnsmasq.conf regexp=^address=\/{{ dnsmasq_domain }}\/127\.0\.0\.1 line=address=/{{ dnsmasq_domain }}/127.0.0.1
+- name: mkdir /etc/resolver
+  file: path=/etc/resolver owner=root group=wheel state=directory
+- name: configure system
+  copy: src=resolver dest=/etc/resolver/{{ dnsmasq_domain }} owner=root group=wheel mode=0644

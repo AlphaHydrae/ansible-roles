@@ -1,0 +1,5 @@
+---
+dependencies:
+  - { role: system-user, user: mmonit }
+  - { role: postgresql-tcp-db, db_name: "{{ mmonit_db_name }}", db_user: "{{ mmonit_db_user }}", db_password: "{{ mmonit_db_password }}", db_schema_file: "/opt/mmonit-{{ mmonit_version }}/db/mmonit-schema.postgresql" }
+  - { role: mmonit, mmonit_db_url: "postgresql://{{ mmonit_db_user }}:{{ mmonit_db_password }}@localhost/{{ mmonit_db_name }}" }

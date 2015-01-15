@@ -1,0 +1,7 @@
+---
+- name: restart postgresql
+  service: name=postgresql state=restarted
+- name: load schema
+  shell: psql -h localhost -U {{ db_user }} -f {{ db_schema_file }} {{ db_name }}
+  environment:
+    PGPASSWORD: "{{ db_password }}"

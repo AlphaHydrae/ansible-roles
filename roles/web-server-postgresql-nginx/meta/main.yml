@@ -1,7 +1,0 @@
----
-dependencies:
-  - { role: cli-tools, tags: [ cli ] }
-  - { role: remote-server, tags: [ remote ] }
-  - { role: postfix, tags: [ postfix ] }
-  - { role: postgresql-peer, tags: [ postgresql ] }
-  - { role: nginx, tags: [ nginx ] }

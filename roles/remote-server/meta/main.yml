@@ -1,5 +1,7 @@
 ---
 dependencies:
+  - { role: postfix }
   - { role: logwatch }
+  - { role: cli-tools }
   - { role: remote-firewall }
   - { role: ssh-public-key-auth }

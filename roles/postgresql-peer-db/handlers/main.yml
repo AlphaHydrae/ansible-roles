@@ -1,3 +1,8 @@
 ---
 - name: restart postgresql
   service: name=postgresql state=restarted
+# NOTE: with peer authentication, only works if the system user already exists
+- name: load schema
+  shell: psql -U {{ db_user }} -f {{ db_schema_file }} {{ db_name }}
+  sudo: yes
+  sudo_user: "{{ db_user }}"

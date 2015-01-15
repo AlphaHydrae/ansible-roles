@@ -1,0 +1,3 @@
+---
+dependencies:
+  - { role: systemd-forking-app, app_name: mmonit, app_user: mmonit, app_identifier: mmonit, app_description: "M/Monit monitoring service", app_after: postgresql.target, app_command: "/opt/mmonit-{{ mmonit_version }}/bin/mmonit" }

@@ -1,6 +1,6 @@
 [Unit]
-Description={{ app_name }} unicorn application server for user {{ app_user }}
-After=postgresql.target
+Description={{ app_description }}
+{% if app_after %}After={{ app_after }}.target{% endif %}
 
 [Service]
 Type=forking

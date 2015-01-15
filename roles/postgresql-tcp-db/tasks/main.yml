@@ -1,0 +1,23 @@
+---
+- name: create database user
+  postgresql_user: name={{ db_user }} password={{ db_password }}
+  sudo: yes
+  sudo_user: postgres
+- name: create database
+  postgresql_db: name={{ db_name }} owner={{ db_user }}
+  sudo: yes
+  sudo_user: postgres
+  when: db_name != 'all'
+- name: configure database tcp access
+  lineinfile: dest=/var/lib/pgsql/data/pg_hba.conf regexp="^ *host *{{ db_user }}" line="  host   {{ db_name }}   {{ db_user }}   localhost   md5"
+  notify:
+    - restart postgresql
+- name: check if schema is already loaded
+  command: psql -U postgres -c '\d' {{ db_name }}
+  sudo: yes
+  sudo_user: postgres
+  register: db_schema_loaded
+  changed_when: "'No relations found' in db_schema_loaded.stdout"
+  when: db_schema_file is defined
+  notify:
+    - load schema

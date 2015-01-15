@@ -1,0 +1,13 @@
+---
+- name: mkdir /root/install
+  file: path=/root/install owner=root group=root state=directory
+- name: download mmonit
+  get_url: url=https://mmonit.com/dist/mmonit-{{ mmonit_version }}-linux-x64.tar.gz dest=/root/install/mmonit-{{ mmonit_version }}.tar.gz sha256sum=643a45df2a529035f5ae7f8baf8185a1743e3672c4a3ad2768fc5ca7db69dc24
+- name: unarchive mmonit
+  command: tar -xzf /root/install/mmonit-{{ mmonit_version }}.tar.gz chdir=/opt creates=/opt/mmonit-{{ mmonit_version }}
+  register: mmonit_unarchived
+- name: chown -R mmonit:mmonit /opt/mmonit-{{ mmonit_version }}
+  command: chown -R mmonit:mmonit /opt/mmonit-{{ mmonit_version }}
+  when: mmonit_unarchived|changed
+- name: template mmonit server.xml
+  template: src=server.xml.j2 dest=/opt/mmonit-{{ mmonit_version }}/conf/server.xml owner=root group=mmonit mode=0640

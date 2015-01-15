@@ -10,5 +10,9 @@
   file: path=/var/lib/pgsql/data group=postgres owner=postgres mode=0700 state=directory
 - name: initialize postgresql cluster
   command: su - postgres -c 'initdb -D /var/lib/pgsql/data -E UTF8 --locale=en_US.UTF8' creates=/var/lib/pgsql/data/pg_hba.conf
+  register: postgresql_cluster_initialized
+- name: template /var/lib/pgsql/data/pg_hba.conf
+  template: src=pg_hba.conf.j2 dest=/var/lib/pgsql/data/pg_hba.conf owner=postgres group=postgres mode=0600
+  when: postgresql_cluster_initialized|changed
 - name: start postgresql
   service: name=postgresql enabled=yes state=started

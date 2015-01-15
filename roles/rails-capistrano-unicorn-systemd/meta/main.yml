@@ -8,4 +8,4 @@ dependencies:
   - { role: self-signed-certificate, when: host_environment != 'production', tags: [ ssl ] }
   - { role: ssl-certificate, certificate_domain: "{{ app_domain }}", when: host_environment == 'production', tags: [ ssl ] }
   - { role: nginx-unicorn-app, tags: [ nginx ] }
-  - { role: systemd-unicorn-app, tags: [ systemd ] }
+  - { role: systemd-forking-app, app_description: "{{ app_name }} unicorn application server for user {{ app_user }}", app_after: postgresql.target, tags: [ systemd ] }

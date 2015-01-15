@@ -1,0 +1,7 @@
+---
+- name: useradd --no-create-home {{ user }}
+  user: name={{ user }} createhome=no
+  when: not nologin
+- name: useradd --no-create-home -s /sbin/nologin {{ user }}
+  user: name={{ user }} createhome=no shell=/sbin/nologin
+  when: nologin

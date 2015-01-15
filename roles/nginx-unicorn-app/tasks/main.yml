@@ -1,4 +1,5 @@
 ---
+# TODO: rename to nginx-unix-socket
 - name: mkdir /run/web/{{ app_user }}/{{ app_name }}
   file: path=/run/web/{{ app_user }}/{{ app_name }} group={{ app_user }} owner={{ app_user }} mode=0755 setype=httpd_var_run_t state=directory
 - name: configure nginx to proxy to unicorn cluster

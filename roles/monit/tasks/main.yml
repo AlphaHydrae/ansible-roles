@@ -1,0 +1,26 @@
+---
+- name: yum install monit
+  yum: name=monit state=latest
+  when: host_package_manager == 'yum'
+- name: apt-get install monit
+  apt: name=monit state=latest
+  when: host_package_manager == 'apt'
+- name: port install monit
+  macports: name=monit state=present
+  when: host_package_manager == 'macports'
+- include_vars: "{{ host_package_manager }}.yml"
+- name: template {{ monit_config }}
+  template: src=monitrc.j2 dest={{ monit_config }} group=root owner=root mode=0600
+  notify:
+    - reload monit
+- name: start monit
+  service: name=monit enabled=yes state=started
+  when: host_package_manager != 'macports'
+- name: check if monit is loaded
+  shell: launchctl list|grep com.tildeslash.monit &>/dev/null && echo monit is already loaded || echo monit is not loaded
+  register: monit_loaded
+  changed_when: false
+  when: host_package_manager == 'macports'
+- name: port load monit
+  command: port load monit
+  when: "host_package_manager == 'macports' and 'not loaded' in monit_loaded.stdout"

@@ -16,7 +16,7 @@
 ##
 ## Start Monit in the background (run as a daemon):
 #
-set daemon {{ MONIT_INTERVAL }}              # check services at 1-minute intervals
+set daemon {{ monit_interval }}              # check services at 1-minute intervals
 #   with start delay 240    # optional: delay the first check by 4-minutes (by 
 #                           # default Monit check immediately after Monit start)
 #
@@ -74,8 +74,8 @@ set eventqueue
 ## communicating with M/Monit and send credentials encrypted.
 #
 # set mmonit http://monit:monit@192.168.1.10:8080/collector
-{% if MONIT_MMONIT %}
-set mmonit {{ MONIT_MMONIT }}
+{% if monit_mmonit is defined %}
+set mmonit {{ monit_mmonit }}
 {% endif %}
 #     # and register without credentials     # Don't register credentials
 #
@@ -117,15 +117,17 @@ set mmonit {{ MONIT_MMONIT }}
 ## services monitored and manage services from a web interface. See the
 ## Monit Wiki if you want to enable SSL for the web server. 
 #
-set httpd port {{ MONIT_PORT }} and
+set httpd port {{ monit_port }} and
 
+    {% if monit_ssl is defined and monit_ssl %}
     ssl enable
-    pemfile /web/certificates/{{ MONIT_DOMAIN }}/server.pem
+    pemfile {{ monit_ssl_certificate }}
+    {% endif %}
 
-    allow admin:{{ MONIT_ADMIN_PASSWORD }}      # require user 'admin' with password 'monit'
+    allow admin:{{ monit_admin_password }}      # require user 'admin' with password 'monit'
 
-    {% if MONIT_RO_USER %}
-    allow {{ MONIT_RO_USER }}:{{ MONIT_RO_PASSWORD }} readonly
+    {% if monit_ro_user %}
+    allow {{ monit_ro_user }}:{{ monit_ro_password }} readonly
     {% endif %}
 
     signature disable
@@ -252,6 +254,4 @@ set httpd port {{ MONIT_PORT }} and
 ## It is possible to include additional configuration parts from other files or
 ## directories.
 #
-#  include /etc/monit.d/*
-include /opt/local/etc/monit.d/*
-#
+include {{ monit_config_dir }}/*

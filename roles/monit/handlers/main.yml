@@ -1,0 +1,4 @@
+---
+- include_vars: "{{ host_package_manager }}.yml"
+- name: reload monit
+  command: "{{ monit_bin }} reload"

@@ -1,2 +1,3 @@
 ---
+mmonit_port: 8080
 mmonit_db_url: sqlite:///db/mmonit.db?synchronous=normal&heap_limit=8000&foreign_keys=on&journal_mode=wal

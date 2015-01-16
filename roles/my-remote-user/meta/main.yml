@@ -5,6 +5,7 @@ dependencies:
   - { role: github, tags: [ github ] }
   - { role: rvm, ruby_version_default: true, tags: [ rvm ] }
   - role: env
+    env_path: env
     when: env_repo is defined
     tags: [ env ]
   - role: gitenv

@@ -9,7 +9,8 @@
   macports: name={{ item }} state=installed
   with_items:
     - httpie
-    - hub
+    - hub # TODO: mode hub to github role
+    - jq
   when: host_package_manager == 'macports'
 # ack
 - name: mkdir /opt/bin

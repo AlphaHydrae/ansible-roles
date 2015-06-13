@@ -1,19 +1,19 @@
 - name: Install PostgreSQL
-  macports: name={{ POSTGRESQL_PORT }} state=installed
+  macports: name={{ postgresql_port_version }} state=installed
 - name: Install PostgreSQL documentation
-  macports: name={{ POSTGRESQL_PORT }}-doc state=installed
+  macports: name={{ postgresql_port_version }}-doc state=installed
 - name: Install PostgreSQL server
-  macports: name={{ POSTGRESQL_PORT }}-server state=installed
+  macports: name={{ postgresql_port_version }}-server state=installed
 - name: Select PostgreSQL port
-  script: common/port-select.sh postgresql {{ POSTGRESQL_PORT }}
+  script: common/port-select.sh postgresql {{ postgresql_port_version }}
   register: selected
   changed_when: selected.stdout.find('already active') == -1
 - name: Create PostgreSQL cluster directory
-  file: path=/opt/local/var/db/{{ POSTGRESQL_PORT }}/defaultdb group=postgres owner=postgres mode=0700 state=directory
+  file: path=/opt/local/var/db/{{ postgresql_port_version }}/defaultdb group=postgres owner=postgres mode=0700 state=directory
 - name: Initialize PostgreSQL cluster
-  command: su -l postgres -c '/opt/local/lib/{{ POSTGRESQL_PORT }}/bin/initdb -D /opt/local/var/db/{{ POSTGRESQL_PORT }}/defaultdb -E UTF8 --locale=en_US.UTF-8' creates=/opt/local/var/db/{{ POSTGRESQL_PORT }}/defaultdb/pg_hba.conf
+  command: su -l postgres -c '/opt/local/lib/{{ postgresql_port_version }}/bin/initdb -D /opt/local/var/db/{{ postgresql_port_version }}/defaultdb -E UTF8 --locale=en_US.UTF-8' creates=/opt/local/var/db/{{ postgresql_port_version }}/defaultdb/pg_hba.conf
 - name: Load PostgreSQL port
-  script: common/port-load.sh {{ POSTGRESQL_PORT }}-server
+  script: common/port-load.sh {{ postgresql_port_version }}-server
   register: loaded
   changed_when: loaded.stdout.find('already loaded') == -1
 - name: Install psycopg2

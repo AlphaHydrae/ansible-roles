@@ -9,7 +9,7 @@
 - name: Ensure boxafe password file is in environment file
   lineinfile: line="boxafe_password_file=\"~/{{ boxafe_password_file }}\"" dest="{{ user_home }}/.env" state=present create=yes group={{ group }} owner={{ user }} mode=0600
 - name: Install boxafe gem
-  command: su - {{ user }} -c "cd && source .rvm/scripts/rvm && gem install --no-rdoc --no-ri boxafe" creates="{{ user_home }}/.rvm/gems/ruby-{{ RUBY_VERSION }}/bin/boxafe"
+  command: su - {{ user }} -c "cd && source .rvm/scripts/rvm && gem install --no-rdoc --no-ri boxafe" creates="{{ user_home }}/.rvm/gems/ruby-{{ rvm_ruby_version }}/bin/boxafe"
 - name: Ensure EncFS config file permissions
   file: path="{{ user_home }}/{{ boxafe_encfs_config }}" group={{ group }} owner={{ user }} mode=0400
 - name: Ensure safebox password file permissions
@@ -17,7 +17,7 @@
 - name: Ensure boxafe configuration
   file: path="{{ user_home }}/.boxafe.rb" src="{{ boxafe_config }}" state=link
 - name: Mount boxafe
-  command: su - {{ user }} -c "cd && export PATH=/opt/local/bin:$PATH && source .rvm/scripts/rvm && rvm use {{ RUBY_VERSION }} && boxafe mount" creates=/Volumes/{{ boxafe_name }}
+  command: su - {{ user }} -c "cd && export PATH=/opt/local/bin:$PATH && source .rvm/scripts/rvm && rvm use {{ rvm_ruby_version }} && boxafe mount" creates=/Volumes/{{ boxafe_name }}
 - name: Link Safebox
   file: path="{{ user_home }}/Safebox" src="/Volumes/Safebox" state=link
   notify: apply gitenv

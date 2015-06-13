@@ -1,6 +1,6 @@
 ---
 - name: gem install vim-epidemic
-  command: su - {{ user }} -c "cd && gem install --no-rdoc --no-ri vim-epidemic" creates="{{ user_home }}/.rvm/gems/ruby-{{ ruby_version }}/bin/vim-epidemic"
+  command: su - {{ user }} -c "cd && gem install --no-rdoc --no-ri vim-epidemic" creates="{{ user_home }}/.rvm/gems/ruby-{{ rvm_ruby_version }}/bin/vim-epidemic"
 - name: vim-epidemic update
   command: su - {{ user }} -c "cd && vim-epidemic update" creates={{ user_home }}/.vim/bundle/Command-T
   when: vim_ruby is not defined

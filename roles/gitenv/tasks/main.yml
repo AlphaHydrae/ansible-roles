@@ -1,14 +1,29 @@
 - name: gem install gitenv
-  command: su - {{ user }} -c "cd && gem install --no-rdoc --no-ri gitenv" creates="{{ user_home }}/.rvm/gems/{{ ruby_version }}/bin/gitenv"
+  gem: name=gitenv user_install=no state=latest
 - name: mkdir {{ install_path }}
   file: path={{ install_path }} owner={{ user }} group={{ group | default(user) }} state=directory
-  when: gitenv_backups is defined
-- name: back up original configuration
-  command: su - {{ user }} -c "cd && mv {{ item.path | default(item.name) }} {{ install_path }}/{{ item.name }}.orig &>/dev/null || touch {{ install_path }}/{{ item.name }}.orig" creates={{ install_path }}/{{ item.name }}.orig
+- name: back up original configuration # TODO: implement this in gitenv and remove this step
+  shell: mv {{ item.path | default(item.name) }} {{ install_path }}/{{ item.name }}.orig &>/dev/null || touch {{ install_path }}/{{ item.name }}.orig creates={{ install_path }}/{{ item.name }}.orig
   with_items: gitenv_backups
   when: gitenv_backups is defined
-- name: apply gitenv
-  command: su - {{ user }} -c "cd && GITENV_REPO={{ gitenv_repo }} GITENV_CONFIG={{ gitenv_config }} gitenv apply"
+- name: gitenv apply
+  shell: gitenv apply chdir={{ gitenv_chdir }}
+  sudo: yes
+  sudo_user: "{{ user }}"
+  environment:
+    GITENV_REPO: "{{ gitenv_repo }}"
+    GITENV_CONFIG: "{{ gitenv_config }}"
+    PATH: /opt/local/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin
+#- name: mkdir {{ install_path }}
+#  file: path={{ install_path }} owner={{ user }} group={{ group | default(user) }} state=directory
+#  when: gitenv_backups is defined
+#- name: back up original configuration
+#  command: su - {{ user }} -c "cd && mv {{ item.path | default(item.name) }} {{ install_path }}/{{ item.name }}.orig &>/dev/null || touch {{ install_path }}/{{ item.name }}.orig" creates={{ install_path }}/{{ item.name }}.orig
+#  with_items: gitenv_backups
+#  when: gitenv_backups is defined
+#- name: apply gitenv
+#  command: su - {{ user }} -c "cd && GITENV_REPO={{ gitenv_repo }} GITENV_CONFIG={{ gitenv_config }} gitenv apply"
+
 #- name: Back up prompt_adam2_setup
 #  command: su - root -c "mv /opt/local/share/zsh/{{ ZSH_VERSION }}/functions/prompt_adam2_setup /opt/local/share/zsh/{{ ZSH_VERSION }}/functions/prompt_adam2_setup.orig" creates="/opt/local/share/zsh/{{ ZSH_VERSION }}/functions/prompt_adam2_setup.orig"
 #- name: Set up prompt_adam2_setup

@@ -5,11 +5,11 @@
   command: /home/{{ user }}/.rvm/bin/rvm requirements
   register: command_result
   changed_when: "'Installing' in command_result.stdout"
-- name: rvm install {{ ruby_version }}
-  command: su - {{ user }} -c 'cd && rvm install {{ ruby_version }}' creates={{ host_user_homes | default("/home") }}/{{ user }}/.rvm/rubies/{{ ruby_version }}
-  when: ruby_version is defined
-- name: rvm use --default {{ ruby_version }}
-  command: su - {{ user }} -c "rvm list|grep -v '#'|grep '*'|cut -d ' ' -f 2|grep {{ ruby_version }} &>/dev/null && echo {{ ruby_version }} is already the default || rvm use --default {{ ruby_version }}"
+- name: rvm install {{ rvm_ruby_version }}
+  command: su - {{ user }} -c 'cd && rvm install {{ rvm_ruby_version }}' creates={{ host_user_homes | default("/home") }}/{{ user }}/.rvm/rubies/{{ rvm_ruby_version }}
+  when: rvm_ruby_version is defined
+- name: rvm use --default {{ rvm_ruby_version }}
+  command: su - {{ user }} -c "rvm list|grep -v '#'|grep '*'|cut -d ' ' -f 2|grep {{ rvm_ruby_version }} &>/dev/null && echo {{ rvm_ruby_version }} is already the default || rvm use --default {{ rvm_ruby_version }}"
   register: command_result
   changed_when: "'already the default' not in command_result.stdout"
-  when: ruby_version is defined and ruby_version_default
+  when: rvm_ruby_version is defined and rvm_ruby_version_default

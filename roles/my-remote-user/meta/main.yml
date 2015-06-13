@@ -12,5 +12,5 @@ dependencies:
     gitenv_config: "{{ user_home }}/{{ env_path }}/.gitenv.rb"
     gitenv_backups: [ { name: '.bashrc' }, { name: '.bash_profile' }, { name: '.zshrc' } ]
     when: env_repo is defined and env_path is defined
-    tags: [ env ]
+    tags: [ env, gitenv ]
   - { role: vim-pathogen, tags: [ vim ] }

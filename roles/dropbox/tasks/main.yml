@@ -32,8 +32,6 @@
   when: pictures_link|changed
 - name: Link Pictures directory
   file: path="{{ USERHOME }}/Pictures" src="{{ USERHOME }}/Dropbox/Pictures" state=link
-- name: Link Adium 2.0 application support directory
-  file: path="{{ USERHOME }}/Library/Application Support/Adium 2.0" src="{{ USERHOME }}/Dropbox/Shared/Library/Application Support/Adium 2.0" state=link
 - name: Make Applications directory
   file: path="{{ USERHOME }}/Applications" group={{ USERGROUP }} owner={{ USERNAME }} state=directory
 - name: Check whether IM application already exists

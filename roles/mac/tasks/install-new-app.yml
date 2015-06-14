@@ -1,9 +1,9 @@
 ---
 - name: Copy $app_name
-  copy: src="{{ INSTALLATION_SOURCE }}/{{ app_name }} {{ app_version }}.{{ archive_type }}" dest="{{ DOWNLOADS }}/{{ app_name }} {{ app_version }}.{{ archive_type }}" owner={{ USERNAME }}
+  copy: src="{{ mac_installation_source }}/{{ app_name }} {{ app_version }}.{{ archive_type }}" dest="{{ mac_downloads }}/{{ app_name }} {{ app_version }}.{{ archive_type }}" owner={{ user }}
 # Dmg
 - name: Mount $app_name image
-  command: hdiutil attach "{{ app_name }} {{ app_version }}.dmg" -mountpoint "/Volumes/{{ app_name }}" chdir="{{ DOWNLOADS }}"
+  command: hdiutil attach "{{ app_name }} {{ app_version }}.dmg" -mountpoint "/Volumes/{{ app_name }}" chdir="{{ mac_downloads }}"
   when: archive_type == 'dmg'
 - name: Copy $app_name app to /Applications
   command: cp -R "/Volumes/{{ app_name }}/{{ app_name }}.app" /Applications
@@ -13,26 +13,26 @@
   when: archive_type == 'dmg'
 # Zip
 - name: Unzip {{ app_name }}
-  command: unzip "{{ app_name }} {{ app_version }}.zip" "{{ app_name }}*" chdir="{{ DOWNLOADS }}"
+  command: unzip "{{ app_name }} {{ app_version }}.zip" "{{ app_name }}*" chdir="{{ mac_downloads }}"
   when: archive_type == 'zip'
 - name: Copy $app_name app to /Applications
-  command: cp -R "{{ DOWNLOADS }}/{{ app_name }}.app" /Applications
+  command: cp -R "{{ mac_downloads }}/{{ app_name }}.app" /Applications
   when: archive_type == 'zip'
 - name: Clean unzipped app
-  command: rm -fr "{{ DOWNLOADS }}/{{ app_name }}.app"
+  command: rm -fr "{{ mac_downloads }}/{{ app_name }}.app"
   when: archive_type == 'zip'
 # Tbz
 - name: Extract {{ app_name }}
-  command: tar -xzf "{{ app_name }} {{ app_version }}.tbz" chdir="{{ DOWNLOADS }}"
+  command: tar -xzf "{{ app_name }} {{ app_version }}.tbz" chdir="{{ mac_downloads }}"
   when: archive_type == "tbz"
 - name: Copy $app_name app to /Applications
-  command: cp -R "{{ DOWNLOADS }}/{{ app_name }}.app" /Applications
+  command: cp -R "{{ mac_downloads }}/{{ app_name }}.app" /Applications
   when: archive_type == "tbz"
 - name: Clean unzipped app
-  command: rm -fr "{{ DOWNLOADS }}/{{ app_name }}.app"
+  command: rm -fr "{{ mac_downloads }}/{{ app_name }}.app"
   when: archive_type == "tbz"
 # Finalize
 - name: Set $app_name permissions
-  file: path="/Applications/{{ app_name }}.app" owner={{ USERNAME }} state=directory recurse=yes
+  file: path="/Applications/{{ app_name }}.app" owner={{ user }} state=directory recurse=yes
 - name: Save to installation manifest
-  lineinfile: line="Installed {{ app_name }} {{ app_version }} to /Applications/{{ app_name }}.app" dest="{{ INSTALLATION_TARGET }}/ansible.txt" state=present create=yes group={{ USERGROUP }} owner={{ USERNAME }} mode=0600
+  lineinfile: line="Installed {{ app_name }} {{ app_version }} to /Applications/{{ app_name }}.app" dest="{{ mac_installation_target }}/ansible.txt" state=present create=yes group={{ group }} owner={{ user }} mode=0600

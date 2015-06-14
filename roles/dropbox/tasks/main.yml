@@ -1,43 +1,43 @@
 - name: Check whether environment directory already exists
-  shell: test -L "{{ USERHOME }}/.env.d" && echo 'yes' || echo 'no'
+  shell: test -L "{{ user_home }}/.env.d" && echo 'yes' || echo 'no'
   register: environment_directory_link
   changed_when: environment_directory_link.stdout.find('yes') == -1
 - name: Link environment directory
-  command: su - {{ USERNAME }} -c "cd && ln -s {{ USERHOME }}/Safebox/Config/.env.d {{ USERHOME }}/.env.d"
+  command: su - {{ user }} -c "cd && ln -s {{ user_home }}/Safebox/Config/.env.d {{ user_home }}/.env.d"
   when: environment_directory_link|changed
 - name: Check whether Archives directory already exists
-  shell: test -L "{{ USERHOME }}/Archives" && echo 'yes' || echo 'no'
+  shell: test -L "{{ user_home }}/Archives" && echo 'yes' || echo 'no'
   register: archives_directory_link
   changed_when: archives_directory_link.stdout.find('yes') == -1
 - name: Link Archives directory
-  command: su - {{ USERNAME }} -c "cd && ln -s {{ USERHOME }}/Safebox/Archives {{ USERHOME }}/Archives"
+  command: su - {{ user }} -c "cd && ln -s {{ user_home }}/Safebox/Archives {{ user_home }}/Archives"
   when: archives_directory_link|changed
 - name: Link Desktop to Dropbox
-  file: path="{{ USERHOME }}/Dropbox/Desktop/{{ host_human_name }}" src="{{ USERHOME }}/Desktop" state=link
+  file: path="{{ user_home }}/Dropbox/Desktop/{{ host_human_name }}" src="{{ user_home }}/Desktop" state=link
 - name: Check whether Music directory is linked
-  shell: test -L "{{ USERHOME }}/Music" && echo 'yes' || echo 'no'
+  shell: test -L "{{ user_home }}/Music" && echo 'yes' || echo 'no'
   register: music_link
   changed_when: music_link.stdout.find('yes') == -1
 - name: Archive Music directory
-  command: mv "{{ USERHOME }}/Music" "{{ INSTALLATION_TARGET }}/Original Music" creates="{{ INSTALLATION_TARGET }}/Original Music"
+  command: mv "{{ user_home }}/Music" "{{ mac_installation_target }}/Original Music" creates="{{ mac_installation_target }}/Original Music"
   when: music_link|changed
 - name: Link Music directory
-  file: path="{{ USERHOME }}/Music" src="{{ USERHOME }}/Dropbox/Music" state=link
+  file: path="{{ user_home }}/Music" src="{{ user_home }}/Dropbox/Music" state=link
 - name: Check whether Pictures directory is linked
-  shell: test -L "{{ USERHOME }}/Pictures" && echo 'yes' || echo 'no'
+  shell: test -L "{{ user_home }}/Pictures" && echo 'yes' || echo 'no'
   register: pictures_link
   changed_when: pictures_link.stdout.find('yes') == -1
 - name: Archive Pictures directory
-  command: mv "{{ USERHOME }}/Pictures" "{{ INSTALLATION_TARGET }}/Original Pictures" creates="{{ INSTALLATION_TARGET }}/Original Pictures"
+  command: mv "{{ user_home }}/Pictures" "{{ mac_installation_target }}/Original Pictures" creates="{{ mac_installation_target }}/Original Pictures"
   when: pictures_link|changed
 - name: Link Pictures directory
-  file: path="{{ USERHOME }}/Pictures" src="{{ USERHOME }}/Dropbox/Pictures" state=link
+  file: path="{{ user_home }}/Pictures" src="{{ user_home }}/Dropbox/Pictures" state=link
 - name: Make Applications directory
-  file: path="{{ USERHOME }}/Applications" group={{ USERGROUP }} owner={{ USERNAME }} state=directory
+  file: path="{{ user_home }}/Applications" group={{ group }} owner={{ user }} state=directory
 - name: Check whether IM application already exists
-  shell: test -e "{{ USERHOME }}/Applications/IM.app" && echo 'yes' || echo 'no'
+  shell: test -e "{{ user_home }}/Applications/IM.app" && echo 'yes' || echo 'no'
   register: im_app_link
   changed_when: im_app_link.stdout.find('yes') == -1
 - name: Link IM application
-  command: su - {{ USERNAME }} -c "cd && cp -R {{ USERHOME }}/Safebox/Automator/IM.app {{ USERHOME }}/Applications"
+  command: su - {{ user }} -c "cd && cp -R {{ user_home }}/Safebox/Automator/IM.app {{ user_home }}/Applications"
   when: im_app_link|changed

@@ -1,8 +1,8 @@
 ---
 - name: Create downloads directory
-  file: path={{ DOWNLOADS }} group={{ USERGROUP }} owner={{ USERNAME }} state=directory
+  file: path={{ mac_downloads }} group={{ group }} owner={{ user }} state=directory
 - name: Create transient directory
-  file: path="{{ USERHOME }}/Transient" group={{ USERGROUP }} owner={{ USERNAME }} state=directory
+  file: path="{{ host_user_homes | default('/home') }}/{{ user }}/Transient" group={{ group }} owner={{ user }} state=directory
 # Applications to install
 - include: install-app.yml app_name="Adium" app_version="1.5.10" archive_type=dmg
 - include: install-app.yml app_name="Colloquy" app_version="2.4.3" archive_type=zip

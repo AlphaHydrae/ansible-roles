@@ -1,3 +1,7 @@
 ---
 - name: yum install ruby-{{ ruby_version }}
   yum: name=ruby-{{ ruby_version }} state=latest
+  when: host_package_manager == 'yum'
+- name: port install ruby22
+  macports: name={{ macports_ruby_version }} state=installed
+  when: host_package_manager == 'macports'

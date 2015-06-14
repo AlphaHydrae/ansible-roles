@@ -1,0 +1,15 @@
+- name: Check if project has been cloned
+  shell: test -d "{{ user_home }}/Projects/{{ project_dir | default(project_name) }}" && echo cloned || echo absent
+  register: cloned
+  changed_when: cloned.stdout.find('cloned') == -1
+- name: Clone project repository
+  command: su - {{ user }} -c "cd && cd Projects && git clone git@bitbucket.org:{{ project_owner }}/{{ project_name }}.git {{ project_dir | default(project_name) }}"
+  when: cloned|changed
+- name: Check if project has upstream configured
+  command: su - {{ user }} -c "cd && cd Projects/{{ project_dir | default(project_name) }} && git remote"
+  when: project_upstream is defined
+  register: configured
+  changed_when: configured.stdout.find('upstream') == -1
+- name: Configure project upstream
+  command: su - {{ user }} -c "cd && cd Projects/{{ project_dir | default(project_name) }} && git remote add upstream git@bitbucket.org:{{ project_upstream }}.git"
+  when: project_upstream is defined and configured|changed

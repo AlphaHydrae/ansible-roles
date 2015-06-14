@@ -6,5 +6,5 @@
   register: dnsmasq_loaded
   changed_when: false
 - name: port load dnsmasq
-  shell: port load dnsmasq
+  shell: /opt/local/bin/port load dnsmasq
   when: "'not loaded' in dnsmasq_loaded.stdout"

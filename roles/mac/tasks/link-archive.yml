@@ -1,9 +1,9 @@
 - name: Check if archive is installed
-  lineinfile: line="Copied {{ archive }} to {{ DOWNLOADS }}" dest="{{ INSTALLATION_TARGET }}/ansible.txt" state=present create=yes group={{ USERGROUP }} owner={{ USERNAME }} mode=0600
+  lineinfile: line="Copied {{ archive }} to {{ mac_downloads }}" dest="{{ mac_installation_target }}/ansible.txt" state=present create=yes group={{ group }} owner={{ user }} mode=0600
   register: installed
 - name: Copy archive
-  copy: src="{{ INSTALLATION_SOURCE }}/{{ archive }}" dest="{{ DOWNLOADS }}/{{ archive }}" group={{ USERGROUP }} owner={{ USERNAME }}
+  copy: src="{{ mac_installation_source }}/{{ archive }}" dest="{{ mac_downloads }}/{{ archive }}" group={{ group }} owner={{ user }}
   when: installed|changed
 - name: Link archive
-  file: path="{{ USERHOME }}/Desktop/{{ archive }}" src="{{ DOWNLOADS }}/{{ archive }}" state=link
+  file: path="{{ host_user_homes | default('/home') }}/{{ user }}/Desktop/{{ archive }}" src="{{ mac_downloads }}/{{ archive }}" state=link
   when: installed|changed

@@ -1,5 +1,5 @@
 - name: generate ssh key
-  user: name={{ user }} generate_ssh_key=yes ssh_key_bits={{ ssh_key_bits | default(8192) }} ssh_key_comment={{ user }}@{{ host_name }}
+  user: name={{ user }} generate_ssh_key=yes ssh_key_bits={{ ssh_key_bits | default(8192) }} ssh_key_comment="{{ user }}@{{ host_name }}"
   when: host_environment == 'production'
 - name: mkdir ~/.ssh
   file: path={{ ssh_dir }} owner={{ user }} group={{ group | default(user) }} mode=0700 state=directory

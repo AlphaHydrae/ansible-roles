@@ -1,2 +1,2 @@
 - name: Make installation tracking directory
-  file: path="{{ USERHOME }}/Installation" group={{ USERGROUP }} owner={{ USERNAME }} mode=0700 state=directory
+  file: path="{{ host_user_homes | default('/home') }}/{{ user }}/Installation" group={{ group | default(user) }} owner={{ user }} mode=0700 state=directory

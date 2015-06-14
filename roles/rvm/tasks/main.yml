@@ -1,15 +1,21 @@
 ---
 - name: install rvm
-  command: su - {{ user }} -c 'cd && curl -sSL https://get.rvm.io | bash -s stable' creates={{ host_user_homes | default("/home") }}/{{ user }}/.rvm
+  command: su - {{ user }} -c 'cd && curl -sSL https://get.rvm.io | bash -s stable' creates={{ user_home }}/.rvm
 - name: rvm requirements
-  command: /home/{{ user }}/.rvm/bin/rvm requirements
+  command: su - {{ user }} -c '{{ rvm_bin }} requirements'
   register: command_result
   changed_when: "'Installing' in command_result.stdout"
-- name: rvm install {{ rvm_ruby_version }}
-  command: su - {{ user }} -c 'cd && rvm install {{ rvm_ruby_version }}' creates={{ host_user_homes | default("/home") }}/{{ user }}/.rvm/rubies/{{ rvm_ruby_version }}
+- name: check if ruby version is installed
+  command: su - {{ user }} -c '{{ rvm_bin }} list|grep "{{ rvm_ruby_version }} "'
+  register: command_result
+  changed_when: command_result.rc != 0
+  failed_when: false
   when: rvm_ruby_version is defined
+- name: rvm install {{ rvm_ruby_version }}
+  command: su - {{ user }} -c 'cd && {{ rvm_bin }} install {{ rvm_ruby_version }}' creates={{ user_home }}/.rvm/rubies/{{ rvm_ruby_version }}
+  when: rvm_ruby_version is defined and command_result|changed
 - name: rvm use --default {{ rvm_ruby_version }}
-  command: su - {{ user }} -c "rvm list|grep -v '#'|grep '*'|cut -d ' ' -f 2|grep {{ rvm_ruby_version }} &>/dev/null && echo {{ rvm_ruby_version }} is already the default || rvm use --default {{ rvm_ruby_version }}"
+  command: su - {{ user }} -c "{{ rvm_bin }} list|grep -v '#'|grep '*'|cut -d ' ' -f 2|grep {{ rvm_ruby_version }} &>/dev/null && echo {{ rvm_ruby_version }} is already the default || rvm use --default {{ rvm_ruby_version }}"
   register: command_result
   changed_when: "'already the default' not in command_result.stdout"
   when: rvm_ruby_version is defined and rvm_ruby_version_default

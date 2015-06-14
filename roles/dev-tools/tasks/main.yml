@@ -22,7 +22,7 @@
   register: selected
   changed_when: selected.stdout.find('already active') == -1
 - name: install dev gems
-  command: su - {{ USERNAME }} -c "cd && source .rvm/scripts/rvm && gem install --no-rdoc --no-ri {{ item.name }}" creates="{{ USERHOME }}/.rvm/gems/ruby-{{ rvm_ruby_version }}/bin/{{ item.bin }}"
+  command: su - {{ user }} -c "cd && source .rvm/scripts/rvm && gem install --no-rdoc --no-ri {{ item.name }}" creates="{{ user_home }}/.rvm/gems/ruby-{{ rvm_ruby_version }}/bin/{{ item.bin }}"
   with_items:
     - { name: 'dotenv', bin: 'dotenv' }
     - { name: 'git_go', bin: 'gg' }

@@ -1,2 +1,4 @@
 ---
+user_home: "{{ host_user_homes | default('/home') }}/{{ user }}"
+rvm_bin: "{{ user_home }}/.rvm/bin/rvm"
 rvm_ruby_version_default: false
